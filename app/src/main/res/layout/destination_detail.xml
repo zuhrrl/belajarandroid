@@ -6,12 +6,19 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/detail_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         android:src="@drawable/gunung_prau" />
 
+
+    <TextView
+        android:id="@+id/dest_detail_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"/>
 
     <TextView
         android:id="@+id/destination_description"

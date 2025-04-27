@@ -8,6 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 class ListViewHolderDestination(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val imgDestination: ImageView = itemView.findViewById(R.id.img_destination)
     val title: TextView = itemView.findViewById(R.id.destination_title)
-    val description: TextView = itemView.findViewById(R.id.destination_description)
+    val description: TextView = itemView.findViewById(R.id.item_dest_description)
 }
 
