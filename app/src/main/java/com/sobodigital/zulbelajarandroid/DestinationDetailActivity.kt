@@ -14,7 +14,6 @@ class DestinationDetailActivity : ComponentActivity() {
     private lateinit var title: TextView
     private lateinit var description: TextView
 
-
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

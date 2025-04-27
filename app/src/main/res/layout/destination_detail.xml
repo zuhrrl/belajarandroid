@@ -18,13 +18,16 @@
         android:id="@+id/dest_detail_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"/>
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_margin="16dp"
+        android:text="Title"/>
 
     <TextView
         android:id="@+id/destination_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
         android:text="Deskripsi"/>
 
 </LinearLayout>

@@ -14,6 +14,7 @@ recyclerview = "1.4.0"
 cardviewVersion = "1.0.0"
 appcompat = "1.7.0"
 activity = "1.10.1"
+constraintlayout = "2.2.1"
 
 [libraries]
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
@@ -36,6 +37,7 @@ cardview = { group = "androidx.cardview", name = "cardview", version.ref = "card
 material = { module = "com.google.android.material:material", version.ref = "material" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

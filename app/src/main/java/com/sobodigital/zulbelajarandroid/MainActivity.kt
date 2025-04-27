@@ -1,8 +1,11 @@
 package com.sobodigital.zulbelajarandroid
 
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
+import android.provider.ContactsContract.Profile
 import android.util.Log
+import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 class MainActivity : ComponentActivity() {
     private lateinit var rvDestinations: RecyclerView
     private var destinations: MutableList<Destination> = mutableListOf()
+    private lateinit var btnProfile: ImageView
 
     private fun showRecyclerList(list: MutableList<Destination>) {
         rvDestinations.layoutManager = LinearLayoutManager(this)
@@ -32,47 +36,27 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.main_activity)
 
         rvDestinations = findViewById(R.id.rv_destination)
-        destinations = mutableListOf(Destination(name = "Labuan Bajo", R.drawable.image1, "Labuan Bajo adalah sebuah kota nelayan dan ibu kota Kabupaten Manggarai Barat di Nusa Tenggara Timur, Indonesia. Kota ini dikenal sebagai gerbang utama menuju Taman Nasional Komodo, tempat habitat alami satu-satunya bagi hewan purba Komodo. Labuan Bajo juga merupakan destinasi wisata populer dengan keindahan alam bawah laut yang luar biasa, menjadikannya tempat yang sempurna untuk snorkeling dan diving. \n" +
-                "Lebih Detail:\n" +
-                "\n" +
-                "    Lokasi:\n" +
-                "    Labuan Bajo terletak di ujung barat pulau Flores, tepatnya di Kecamatan Komodo, Kabupaten Manggarai Barat, Provinsi NTT. \n" +
-                "\n" +
-                "Taman Nasional Komodo:\n" +
-                "Labuan Bajo merupakan pintu gerbang menuju Taman Nasional Komodo, yang terkenal dengan Komodo, naga purba terbesar di dunia. \n" +
-                "Keindahan Bawah Laut:\n" +
-                "Selain Komodo, Labuan Bajo juga memiliki keindahan bawah laut yang memukau, dengan terumbu karang yang kaya dan beragam jenis biota laut. \n" +
-                "Wisata Populer:\n" +
-                "Labuan Bajo telah menjadi destinasi wisata superprioritas di Indonesia, menarik banyak wisatawan domestik dan internasional. \n" +
-                "Aktivitas Wisata:\n" +
-                "Wisatawan dapat menikmati berbagai aktivitas di Labuan Bajo seperti:\n" +
-                "\n" +
-                "    Snorkeling dan diving di perairan Taman Nasional Komodo. \n" +
-                "\n" +
-                "Menjelajahi Pulau Komodo dan melihat Komodo secara langsung. \n" +
-                "Berwisata ke Pantai Pink (Pantai Merah) dengan pasir merah muda yang unik. \n" +
-                "Melihat sunset di Bukit Cinta atau Pulau Padar. \n" +
-                "Menjelajahi desa wisata Loha. \n" +
-                "\n" +
-                "Ciri Khas:\n" +
-                "Labuan Bajo juga dikenal sebagai \"Kota Seribu Sunset\" dan \"Sepotong Surga yang Jatuh ke Bumi\" karena keindahan alamnya yang memukau. \n" +
-                "Pengalaman Unik:\n" +
-                "Labuan Bajo menawarkan pengalaman wisata yang unik dan tak terlupakan, mulai dari melihat Komodo hingga menikmati keindahan bawah laut. \n" +
-                "\n" +
-                "    Deskripsi Labuan Bajo - Kompasiana.com\n" +
-                "    16 Agu 2023 — Labuan Bajo adalah sebuah kota kecil yang terletak di barat Pulau Flores, Indonesia. ... Labuan Bajo adalah tujuan popu...\n" +
-                "    Kompasiana.com\n" +
-                "\n" +
-                "Labuan Bajo - Wikipedia\n" +
-                "Terjemahan — Labuan Bajo adalah kota nelayan yang terletak di ujung barat pulau besar Flores di provinsi Nusa Tenggara Timur, Indones...\n" +
-                "en.wikipedia.org\n" +
-                "Labuan Bajo, Komodo, Manggarai Barat - Wikipedia\n" +
-                "Labuan Bajo merupakan salah satu kelurahan yang berada di Kecamatan Komodo, Kabupaten Manggarai Barat, Provinsi Nusa Tenggara Timu...\n" +
-                "Wikipedia\n" +
-                "\n" +
-                "    Tampilkan semua\n" +
-                "\n"))
+        btnProfile = findViewById(R.id.btn_profile_home)
+
+        destinations = mutableListOf(Destination(name = "Labuan Bajo", R.drawable.image1, "Labuan Bajo adalah sebuah kota nelayan di ujung barat Pulau Flores, Nusa Tenggara Timur, Indonesia, yang merupakan pintu gerbang menuju Taman Nasional Komodo"),
+            Destination("Malioboro", R.drawable.image4, "Malioboro adalah jalan utama dan kawasan wisata yang sangat terkenal di Yogyakarta, dikenal sebagai pusat perbelanjaan dan tempat wisata budaya. Jalan ini membentang dari Tugu Yogyakarta hingga Titik Nol Kilometer."),
+            Destination("Pantai Karimun Jawa", R.drawable.image2,"Pantai Karimunjawa terkenal dengan keindahan alamnya yang memukau, khususnya keindahan bawah laut dan pasir putihnya yang halus. Karimunjawa adalah kepulauan yang terletak di Laut Jawa, termasuk dalam wilayah Kabupaten Jepara, Jawa Tengah"),
+            Destination("Gunung Prau", R.drawable.image3,"Gunung Prau adalah gunung di Dataran Tinggi Dieng, Jawa Tengah, Indonesia, yang terkenal dengan pemandangan matahari terbitnya. Puncak Gunung Prau memiliki ketinggian 2.590 meter di atas permukaan laut (mdpl)."),
+            Destination("Lantai 2 Jogja", R.drawable.image5,"Lantai 2 di Jogja City Light memiliki beberapa nama tergantung pada jenis bangunan atau fasilitasnya. Jika dimaksudkan Jogja Citylight Mall, lantai 2 umumnya digunakan untuk berbagai tenant ritel seperti toko pakaian, toko aksesoris, dan toko makanan."),
+            Destination("Pura Bali", R.drawable.image8,"Pura di Bali adalah tempat ibadah umat Hindu Bali yang dibangun sesuai dengan aturan, gaya, dan ritual khas arsitektur Bali. Pura-pura ini memiliki desain yang rumit dan kompleks, sering kali dengan gerbang, alun-alun, pagar batu, tangga, dan menara kecil (meru)."),
+            Destination("Pantai Bali", R.drawable.image9,"Bali terkenal dengan berbagai pantai indah yang menarik bagi wisatawan. Beberapa pantai populer di Bali antara lain adalah Pantai Kuta, Pantai Sanur, Pantai Nusa Dua, Pantai Jimbaran, dan Pantai Seminyak"),
+            Destination("Telaga Warna Dieng", R.drawable.image7,"Telaga Warna adalah sebuah telaga di kawasan Dataran Tinggi Dieng, Wonosobo, Jawa Tengah, yang terkenal karena warna airnya yang sering berubah-ubah. Fenomena ini terjadi karena kandungan belerang tinggi di air telaga yang dipengaruhi oleh sinar matahari."),
+            Destination("Dieng Wonosobo", R.drawable.image6,"Dieng, atau Dataran Tinggi Dieng, adalah sebuah dataran tinggi vulkanik yang terletak di Jawa Tengah, Indonesia, terkenal dengan keindahan alamnya dan situs bersejarahnya."),
+            Destination("Pantai Jogja", R.drawable.image10,"Pantai-pantai di Yogyakarta menawarkan pemandangan alam yang menakjubkan, dari pasir putih, tebing karang hingga ombak besar yang menantang."),
+            )
+
+        Log.d("DEV", destinations.size.toString())
 
         showRecyclerList(destinations)
+
+        btnProfile.setOnClickListener {
+            val intent = Intent(this@MainActivity, ProfileActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
