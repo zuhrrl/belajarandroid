@@ -14,13 +14,13 @@
 
       <LinearLayout
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
+          android:layout_height="100dp"
           android:gravity="center_vertical"
           android:padding="10dp"
           android:orientation="horizontal">
 
          <com.google.android.material.imageview.ShapeableImageView
-             android:id="@+id/img_destination"
+             android:id="@+id/img_event"
              android:layout_width="60dp"
              android:layout_height="60dp"
              android:src="@drawable/gunung_prau"
@@ -34,18 +34,13 @@
              android:layout_margin="10dp">
 
             <TextView
-                android:id="@+id/destination_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Title"/>
-
-            <TextView
-                android:id="@+id/item_dest_description"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="3"
                 android:ellipsize="end"
-                android:text="Description"/>
+                android:text="Title"/>
+
 
          </LinearLayout>
 

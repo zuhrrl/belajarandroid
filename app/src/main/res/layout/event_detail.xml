@@ -18,7 +18,7 @@
            android:src="@drawable/gunung_prau" />
 
        <TextView
-           android:id="@+id/dest_detail_title"
+           android:id="@+id/title"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:textSize="16sp"
@@ -27,7 +27,7 @@
            android:text="Title"/>
 
        <TextView
-           android:id="@+id/destination_description"
+           android:id="@+id/description"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_marginStart="16dp"

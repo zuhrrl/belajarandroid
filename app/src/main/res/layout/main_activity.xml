@@ -5,9 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ProgressBar
+        android:id="@+id/home_loading"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone">
+
+    </ProgressBar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_destination"
+        android:id="@+id/rv_event"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -16,38 +25,11 @@
         android:layout_marginBottom="70dp"/>
 
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:elevation="5dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/home_24px"
-                app:tint="@color/purple_200" />
-
-            <View
-                android:layout_width="150dp"
-                android:layout_height="0dp"/>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btn_profile_home"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/person_24px"/>
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
+        app:menu="@menu/bottom_nav_menu" />
 
 </RelativeLayout>
