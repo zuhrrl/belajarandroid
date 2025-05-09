@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
 
         eventMainViewModel.errorMessage.observe(this) {message ->
             Log.d("MainActivity", message)
-            if(message.isNotEmpty()) {
+            if(message.isNotEmpty() && listEvent.isEmpty()) {
                 binding.errorMessage.visibility = View.VISIBLE
                 binding.errorMessage.text = message
                 return@observe

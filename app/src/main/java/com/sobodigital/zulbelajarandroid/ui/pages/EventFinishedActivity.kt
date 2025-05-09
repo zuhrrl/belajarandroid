@@ -73,7 +73,7 @@ class EventFinishedActivity : AppCompatActivity() {
 
         eventMainViewModel.errorMessage.observe(this) {message ->
             Log.d("EventFinishedActivity", message)
-            if(message.isNotEmpty()) {
+            if(message.isNotEmpty() && listEvent.isEmpty()) {
                 binding.errorMessage.visibility = View.VISIBLE
                 binding.errorMessage.text = message
                 return@observe
