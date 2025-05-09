@@ -11,20 +11,23 @@ import retrofit2.Callback
 import retrofit2.Call
 import retrofit2.Response
 
-class MainViewModel : ViewModel() {
+class EventMainViewModel : ViewModel() {
     private val _listEvent = MutableLiveData<List<EventItem>>()
     val listEvent = _listEvent
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
+
     companion object{
         private const val TAG = "MainViewModel"
     }
 
-    fun fetchListEvent() {
+    fun fetchListEvent(active: Int) {
         _isLoading.value = true
-        val client = ApiConfig.getApiService().fetchEvents(1)
+        val client = ApiConfig.getApiService().fetchEvents(active)
         client.enqueue(object : Callback<EventResponse> {
             override fun onResponse(
                 call: Call<EventResponse>,
@@ -40,6 +43,7 @@ class MainViewModel : ViewModel() {
 
             override fun onFailure(call: Call<EventResponse>, t: Throwable) {
                 _isLoading.value = false
+                _errorMessage.value = "Error: ${t.message.toString()}"
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
         })

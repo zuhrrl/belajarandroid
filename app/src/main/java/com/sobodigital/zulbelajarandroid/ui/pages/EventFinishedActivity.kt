@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,16 +17,15 @@ import com.sobodigital.zulbelajarandroid.databinding.MainActivityBinding
 import com.sobodigital.zulbelajarandroid.ui.adapter.EventAdapter
 import com.sobodigital.zulbelajarandroid.viewmodel.EventMainViewModel
 
-class MainActivity : ComponentActivity() {
+class EventFinishedActivity : AppCompatActivity() {
     private lateinit var rvDestinations: RecyclerView
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var binding: MainActivityBinding
     private var listEvent = listOf<EventItem>()
 
     companion object{
-        private const val TAG = "MainActivity"
+        private const val TAG = "EventFinishedActivity"
     }
-
 
     private fun showRecyclerList(list: List<EventItem>) {
         rvDestinations.layoutManager = LinearLayoutManager(this)
@@ -36,7 +35,7 @@ class MainActivity : ComponentActivity() {
         adapter.setOnItemClickCallback(object: EventAdapter.OnItemClickCallback {
             override fun onItemClicked(data: EventItem) {
                 Log.d("debug", "Okee click")
-                val intent = Intent(this@MainActivity, EventDetailActivity::class.java)
+                val intent = Intent(this@EventFinishedActivity, EventDetailActivity::class.java)
                 intent.putExtra("event_id", data.id)
                 startActivity(intent)
             }
@@ -55,7 +54,7 @@ class MainActivity : ComponentActivity() {
         val eventMainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(EventMainViewModel::class.java)
 
-        eventMainViewModel.fetchListEvent(1)
+        eventMainViewModel.fetchListEvent(0)
 
         eventMainViewModel.listEvent.observe(this) { data ->
             Log.d(TAG, "OBSERVER ${data}")
@@ -73,7 +72,7 @@ class MainActivity : ComponentActivity() {
         }
 
         eventMainViewModel.errorMessage.observe(this) {message ->
-            Log.d("MainActivity", message)
+            Log.d("EventFinishedActivity", message)
             if(message.isNotEmpty()) {
                 binding.errorMessage.visibility = View.VISIBLE
                 binding.errorMessage.text = message
@@ -85,31 +84,23 @@ class MainActivity : ComponentActivity() {
 
         Log.d("DEV", listEvent.size.toString())
 
-
         bottomNav.setOnApplyWindowInsetsListener { view, insets ->
             view.updatePadding(bottom = insets.systemWindowInsetBottom)
             insets
         }
 
+        bottomNav.selectedItemId = R.id.event_finished
+
         bottomNav.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.upcoming_event -> {
-
+                    onBackPressed()
                 }
                 R.id.event_finished -> {
-                    val intent = Intent(this@MainActivity, EventFinishedActivity::class.java)
-                    startActivity(intent)
-                }
 
+                }
             }
             true
         }
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        bottomNav.selectedItemId = R.id.upcoming_event
-
     }
 }

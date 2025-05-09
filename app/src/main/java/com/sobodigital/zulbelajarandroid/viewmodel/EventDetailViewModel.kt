@@ -18,6 +18,9 @@ class EventDetailViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
+
     companion object{
         private const val TAG = "DetailEventViewModel"
     }
@@ -40,6 +43,7 @@ class EventDetailViewModel : ViewModel() {
 
             override fun onFailure(call: Call<EventDetailResponse>, t: Throwable) {
                 _isLoading.value = false
+                _errorMessage.value = "Error: ${t.message.toString()}"
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
         })
