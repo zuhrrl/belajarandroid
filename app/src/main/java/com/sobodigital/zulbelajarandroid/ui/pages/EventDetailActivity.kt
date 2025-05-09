@@ -12,7 +12,6 @@ import androidx.activity.ComponentActivity
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.sobodigital.zulbelajarandroid.Destination
 import com.sobodigital.zulbelajarandroid.R
 import com.sobodigital.zulbelajarandroid.data.model.EventItem
 import com.sobodigital.zulbelajarandroid.databinding.EventDetailBinding

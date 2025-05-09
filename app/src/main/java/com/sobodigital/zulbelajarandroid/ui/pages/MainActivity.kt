@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.sobodigital.zulbelajarandroid.ProfileActivity
 import com.sobodigital.zulbelajarandroid.R
 import com.sobodigital.zulbelajarandroid.data.model.EventItem
 import com.sobodigital.zulbelajarandroid.databinding.MainActivityBinding
