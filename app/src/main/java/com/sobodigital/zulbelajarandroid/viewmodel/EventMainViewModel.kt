@@ -26,6 +26,7 @@ class EventMainViewModel : ViewModel() {
     }
 
     fun fetchListEvent(active: Int) {
+        _errorMessage.value = ""
         _isLoading.value = true
         val client = ApiConfig.getApiService().fetchEvents(active)
         client.enqueue(object : Callback<EventResponse> {

@@ -22,6 +22,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var binding: MainActivityBinding
     private var listEvent = listOf<EventItem>()
+    private lateinit var eventMainViewModel: EventMainViewModel
 
     companion object{
         private const val TAG = "MainActivity"
@@ -52,13 +53,13 @@ class MainActivity : ComponentActivity() {
         rvDestinations = binding.rvEvent
         bottomNav = binding.bottomNavigationView
 
-        val eventMainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+        eventMainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(EventMainViewModel::class.java)
 
         eventMainViewModel.fetchListEvent(1)
 
         eventMainViewModel.listEvent.observe(this) { data ->
-            Log.d(TAG, "OBSERVER ${data}")
+            Log.d(TAG, "OBSERVER $data")
             listEvent = data
             showRecyclerList(listEvent)
         }
@@ -109,6 +110,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
+        eventMainViewModel.fetchListEvent(1)
         bottomNav.selectedItemId = R.id.upcoming_event
 
     }

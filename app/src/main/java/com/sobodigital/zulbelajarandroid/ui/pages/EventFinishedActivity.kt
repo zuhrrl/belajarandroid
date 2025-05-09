@@ -57,7 +57,7 @@ class EventFinishedActivity : AppCompatActivity() {
         eventMainViewModel.fetchListEvent(0)
 
         eventMainViewModel.listEvent.observe(this) { data ->
-            Log.d(TAG, "OBSERVER ${data}")
+            Log.d(TAG, "OBSERVER $data")
             listEvent = data
             showRecyclerList(listEvent)
         }
