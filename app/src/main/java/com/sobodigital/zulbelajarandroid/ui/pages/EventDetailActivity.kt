@@ -1,6 +1,8 @@
 package com.sobodigital.zulbelajarandroid.ui.pages
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -60,16 +62,23 @@ class EventDetailActivity : ComponentActivity() {
         }
 
         eventDetailViewModel.event.observe(this) {data ->
-            Glide.with(baseContext).load(data?.imageLogo).into(binding.detailImage)
-            binding.title.text = data?.name
-            binding.owner.text = "Penyelenggara: ${data?.ownerName}"
-            binding.beginTime.text = "Dimulai: ${data?.beginTime}"
-            binding.quotaAndRegistrant.text = "Sisa kuota: ${data?.quota} - Berhasil Registrasi: ${data?.registrants}"
+            val quota = data?.quota!! - data.registrants!!
+            Glide.with(baseContext).load(data.imageLogo).into(binding.detailImage)
+            binding.title.text = data.name
+            binding.owner.text = "Penyelenggara: ${data.ownerName}"
+            binding.beginTime.text = "Dimulai: ${data.beginTime}"
+            binding.quotaAndRegistrant.text = "Sisa kuota: $quota"
             binding.description.text = HtmlCompat.fromHtml(
-                data?.description.toString(),
+                data.description.toString(),
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
+            binding.btnOpenLink.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(data.link))
+                startActivity(intent)
+            }
         }
+
+
 
     }
 }

@@ -1,9 +1,11 @@
 [versions]
 activityKtx = "1.10.1"
+activityKtxVersion = "1.3.1"
 agp = "8.7.2"
 cardview = "1.1.0"
 compiler = "4.8.0"
 converterGson = "2.9.0"
+fragmentKtx = "1.8.6"
 glide = "4.16.0"
 kotlin = "2.0.0"
 coreKtx = "1.10.1"
@@ -21,10 +23,15 @@ appcompat = "1.7.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
 retrofit = "2.11.0"
+navigationFragmentKtx = "2.7.7"
+navigationUiKtx = "2.7.7"
+fragment = "1.8.6"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
+androidx-activity-ktx-v131 = { module = "androidx.activity:activity-ktx", version.ref = "activityKtxVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
@@ -49,6 +56,9 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+androidx-fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation_menu"
+    app:startDestination="@id/upcoming_event">
+
+    <fragment
+        android:id="@+id/upcoming_event"
+        android:name="com.sobodigital.zulbelajarandroid.ui.pages.UpcomingEventFragment"
+        android:label="@string/upcoming_event"
+        tools:layout="@layout/fragment_upcoming_event" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/event_finished"
+        android:name="com.sobodigital.zulbelajarandroid.ui.pages.FinishedEventFragment"
+        android:label="@string/finished_event"
+        tools:layout="@layout/fragment_finished_event" >
+    </fragment>
+
+</navigation>

@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/upcoming_event"
-        android:title="Upcoming"
+        android:title="@string/upcoming"
         android:icon="@drawable/event_upcoming_24px"/>
     <item
         android:id="@+id/event_finished"
-        android:title="Finished"
+        android:title="@string/finished"
         android:icon="@drawable/check_24px"/>
 </menu>

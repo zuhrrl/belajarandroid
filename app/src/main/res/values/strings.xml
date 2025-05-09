@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ZulEventDicoding</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="upcoming_event">Upcoming</string>
+    <string name="finished_event">Finished</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="finished">Finished</string>
+
 </resources>
