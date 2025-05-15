@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sobodigital.zulbelajarandroid.data.model.EventDetailResponse
 import com.sobodigital.zulbelajarandroid.data.model.EventItem
 import com.sobodigital.zulbelajarandroid.data.remote.ApiConfig
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,28 +27,25 @@ class EventDetailViewModel : ViewModel() {
         private const val TAG = "DetailEventViewModel"
     }
 
-    fun fetchEventById(id: Int) {
-        _errorMessage.value = ""
-        _isLoading.value = true
-        val client = ApiConfig.getApiService().fetchEventById(id)
-        client.enqueue(object : Callback<EventDetailResponse> {
-            override fun onResponse(
-                call: Call<EventDetailResponse>,
-                response: Response<EventDetailResponse>
-            ) {
-                _isLoading.value = false
-                if (response.isSuccessful) {
-                    event.value = response.body()?.event
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
-            }
+     fun fetchEventById(id: Int) {
+         viewModelScope.launch {
+             _errorMessage.value = ""
+             _isLoading.value = true
+             try {
+                 val response = ApiConfig.getApiService().fetchEventById(id)
+                 _isLoading.value = false
+                 if (response.isSuccessful) {
+                     event.value = response.body()?.event
+                     return@launch
+                 }
+                 Log.e(TAG, "onFailure: ${response.message()}")
+             }
+             catch (err: Exception) {
+                 _isLoading.value = false
+                 _errorMessage.value = "Error: ${err.message.toString()}"
+                 Log.e(TAG, "onFailure: ${err.message.toString()}")
+             }
 
-            override fun onFailure(call: Call<EventDetailResponse>, t: Throwable) {
-                _isLoading.value = false
-                _errorMessage.value = "Error: ${t.message.toString()}"
-                Log.e(TAG, "onFailure: ${t.message.toString()}")
-            }
-        })
+         }
     }
 }

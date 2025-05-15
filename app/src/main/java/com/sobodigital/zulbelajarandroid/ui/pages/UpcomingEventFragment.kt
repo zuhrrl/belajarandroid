@@ -14,13 +14,12 @@ import com.sobodigital.zulbelajarandroid.data.model.EventItem
 import com.sobodigital.zulbelajarandroid.databinding.FragmentUpcomingEventBinding
 import com.sobodigital.zulbelajarandroid.ui.adapter.EventAdapter
 import com.sobodigital.zulbelajarandroid.viewmodel.EventMainViewModel
+import com.sobodigital.zulbelajarandroid.viewmodel.EventMainViewModelFactory
 
 
 class UpcomingEventFragment : Fragment() {
     private lateinit var eventRecyclerView: RecyclerView
     private var listEvent = listOf<EventItem>()
-    private val eventMainViewModel by viewModels<EventMainViewModel>()
-
 
     private fun showRecyclerList(list: List<EventItem>) {
         eventRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -43,6 +42,9 @@ class UpcomingEventFragment : Fragment() {
     ): View {
         val binding = FragmentUpcomingEventBinding.inflate(layoutInflater)
         eventRecyclerView = binding.rvEvent
+
+        val factory: EventMainViewModelFactory = EventMainViewModelFactory.getInstance(requireActivity())
+        val eventMainViewModel: EventMainViewModel by viewModels { factory }
 
         eventMainViewModel.fetchListEvent(1)
         eventMainViewModel.listEvent.observe(viewLifecycleOwner) { data ->

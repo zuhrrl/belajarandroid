@@ -1,17 +1,15 @@
 package com.sobodigital.zulbelajarandroid.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.sobodigital.zulbelajarandroid.data.Result
 import com.sobodigital.zulbelajarandroid.data.model.EventItem
-import com.sobodigital.zulbelajarandroid.data.model.EventResponse
-import com.sobodigital.zulbelajarandroid.data.remote.ApiConfig
-import retrofit2.Callback
-import retrofit2.Call
-import retrofit2.Response
+import com.sobodigital.zulbelajarandroid.data.repository.EventRepository
+import kotlinx.coroutines.launch
 
-class EventMainViewModel : ViewModel() {
+class EventMainViewModel constructor(private val repository: EventRepository) : ViewModel() {
     private val _listEvent = MutableLiveData<List<EventItem>>()
     val listEvent = _listEvent
 
@@ -26,27 +24,23 @@ class EventMainViewModel : ViewModel() {
     }
 
     fun fetchListEvent(active: Int) {
-        _errorMessage.value = ""
-        _isLoading.value = true
-        val client = ApiConfig.getApiService().fetchEvents(active)
-        client.enqueue(object : Callback<EventResponse> {
-            override fun onResponse(
-                call: Call<EventResponse>,
-                response: Response<EventResponse>
-            ) {
-                _isLoading.value = false
-                if (response.isSuccessful) {
-                    _listEvent.value = response.body()?.listEvents
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
+        viewModelScope.launch {
+            _errorMessage.value = ""
+            _isLoading.value = true
+            when(val response = repository.fetchListEvent(active)) {
+                is Result.Error -> {
+                    _isLoading.value = false
+                    _errorMessage.value = "Error: $response"
+                }
+                Result.Loading -> {
+                    _isLoading.value = true
+                }
+                is Result.Success -> {
+                    _isLoading.value = false
+                    _listEvent.value = response.data
                 }
             }
+        }
 
-            override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-                _isLoading.value = false
-                _errorMessage.value = "Error: ${t.message.toString()}"
-                Log.e(TAG, "onFailure: ${t.message.toString()}")
-            }
-        })
     }
 }

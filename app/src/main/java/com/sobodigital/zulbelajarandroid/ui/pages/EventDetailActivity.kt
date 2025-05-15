@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -78,7 +79,10 @@ class EventDetailActivity : ComponentActivity() {
             }
         }
 
-
+        binding.btnFavorite.setOnClickListener {
+            binding.btnFavorite.setBackgroundResource(R.drawable.favorite_24fill)
+            binding.btnFavorite.background.setTint(ContextCompat.getColor(this, R.color.pink))
+        }
 
     }
 }
