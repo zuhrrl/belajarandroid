@@ -19,3 +19,9 @@ navigation.xml
 ```
 
 As you can see the id, android:id="@+id/upcoming_event" both of menu and navigation is same, if not same the error will appear!
+
+
+# To create a new activity, just extends the activity using AppCompatActivity()
+```
+class EventDetailActivity : AppCompatActivity()
+```
