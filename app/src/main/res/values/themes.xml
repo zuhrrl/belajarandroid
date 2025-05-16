@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Zulbelajarandroid" parent="Theme.MaterialComponents.Light.NoActionBar" />
+    <style name="Theme.AppCompat" parent="Theme.MaterialComponents.DayNight.NoActionBar" >
+    </style>
+
+
 
     <style name="circleImageView" parent="">
         <item name="cornerFamily">rounded</item>

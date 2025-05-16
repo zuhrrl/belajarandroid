@@ -9,7 +9,7 @@ import com.sobodigital.zulbelajarandroid.data.model.EventItem
 import com.sobodigital.zulbelajarandroid.data.repository.EventRepository
 import kotlinx.coroutines.launch
 
-class EventMainViewModel constructor(private val repository: EventRepository) : ViewModel() {
+class EventMainViewModel(private val repository: EventRepository) : ViewModel() {
     private val _listEvent = MutableLiveData<List<EventItem>>()
     val listEvent = _listEvent
 

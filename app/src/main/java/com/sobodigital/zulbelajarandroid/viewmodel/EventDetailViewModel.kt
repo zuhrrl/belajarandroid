@@ -5,15 +5,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sobodigital.zulbelajarandroid.data.Result
 import com.sobodigital.zulbelajarandroid.data.model.EventDetailResponse
 import com.sobodigital.zulbelajarandroid.data.model.EventItem
 import com.sobodigital.zulbelajarandroid.data.remote.ApiConfig
+import com.sobodigital.zulbelajarandroid.data.repository.EventRepository
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class EventDetailViewModel : ViewModel() {
+class EventDetailViewModel(private val repository: EventRepository) : ViewModel() {
     private val _event = MutableLiveData<EventItem>()
     val event = _event
 
@@ -31,21 +33,19 @@ class EventDetailViewModel : ViewModel() {
          viewModelScope.launch {
              _errorMessage.value = ""
              _isLoading.value = true
-             try {
-                 val response = ApiConfig.getApiService().fetchEventById(id)
-                 _isLoading.value = false
-                 if (response.isSuccessful) {
-                     event.value = response.body()?.event
-                     return@launch
+             when(val response = repository.fetchEventById(id)) {
+                 is Result.Error -> {
+                     _isLoading.value = false
+                     _errorMessage.value = "Error: $response"
                  }
-                 Log.e(TAG, "onFailure: ${response.message()}")
+                 Result.Loading -> {
+                     _isLoading.value = true
+                 }
+                 is Result.Success -> {
+                     _isLoading.value = false
+                     _event.value = response.data
+                 }
              }
-             catch (err: Exception) {
-                 _isLoading.value = false
-                 _errorMessage.value = "Error: ${err.message.toString()}"
-                 Log.e(TAG, "onFailure: ${err.message.toString()}")
-             }
-
          }
     }
 }

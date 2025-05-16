@@ -26,4 +26,11 @@
         tools:layout="@layout/fragment_finished_event" >
     </fragment>
 
+    <fragment
+        android:id="@+id/setting_page"
+        android:name="com.sobodigital.zulbelajarandroid.ui.pages.SettingFragment"
+        android:label="@string/finished_event"
+        tools:layout="@layout/fragment_finished_event" >
+    </fragment>
+
 </navigation>

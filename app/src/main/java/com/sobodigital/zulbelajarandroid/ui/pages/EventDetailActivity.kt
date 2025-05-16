@@ -3,23 +3,18 @@ package com.sobodigital.zulbelajarandroid.ui.pages
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.sobodigital.zulbelajarandroid.R
-import com.sobodigital.zulbelajarandroid.data.model.EventItem
 import com.sobodigital.zulbelajarandroid.databinding.EventDetailBinding
-import com.sobodigital.zulbelajarandroid.databinding.MainActivityBinding
 import com.sobodigital.zulbelajarandroid.viewmodel.EventDetailViewModel
+import com.sobodigital.zulbelajarandroid.viewmodel.EventDetailViewModelFactory
 
 class EventDetailActivity : ComponentActivity() {
     private lateinit var binding: EventDetailBinding
@@ -30,20 +25,20 @@ class EventDetailActivity : ComponentActivity() {
 
         val eventId = intent.getIntExtra("event_id", 0)
 
-
         binding = EventDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val eventDetailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
-            .get(EventDetailViewModel::class.java)
+        val factory: EventDetailViewModelFactory = EventDetailViewModelFactory.getInstance(this)
+        val viewModel: EventDetailViewModel by viewModels { factory }
 
         eventId.let {
             id -> Log.d("TEST", id.toString())
-            eventDetailViewModel.fetchEventById(id)
+            viewModel.fetchEventById(id)
         }
 
-        eventDetailViewModel.isLoading.observe(this) {isLoading ->
+        viewModel.isLoading.observe(this) {isLoading ->
             if(isLoading) {
+                binding.btnFavorite.visibility = View.GONE
                 binding.loading.visibility = View.VISIBLE
                 return@observe
             }
@@ -51,7 +46,7 @@ class EventDetailActivity : ComponentActivity() {
             return@observe
         }
 
-        eventDetailViewModel.errorMessage.observe(this) {message ->
+        viewModel.errorMessage.observe(this) {message ->
             Log.d("EventDetailActivity", message)
             if(message.isNotEmpty()) {
                 binding.errorMessage.visibility = View.VISIBLE
@@ -62,7 +57,7 @@ class EventDetailActivity : ComponentActivity() {
             return@observe
         }
 
-        eventDetailViewModel.event.observe(this) {data ->
+        viewModel.event.observe(this) {data ->
             val quota = data?.quota!! - data.registrants!!
             Glide.with(baseContext).load(data.imageLogo).into(binding.detailImage)
             binding.title.text = data.name
@@ -77,6 +72,7 @@ class EventDetailActivity : ComponentActivity() {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(data.link))
                 startActivity(intent)
             }
+            binding.btnFavorite.visibility = View.VISIBLE
         }
 
         binding.btnFavorite.setOnClickListener {
