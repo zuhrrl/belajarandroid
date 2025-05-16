@@ -6,17 +6,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-<<<<<<< Updated upstream
-import androidx.activity.ComponentActivity
-import androidx.activity.viewModels
-=======
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
->>>>>>> Stashed changes
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
 import com.sobodigital.zulbelajarandroid.R
+import com.sobodigital.zulbelajarandroid.data.model.EventItem
 import com.sobodigital.zulbelajarandroid.databinding.EventDetailBinding
 import com.sobodigital.zulbelajarandroid.viewmodel.EventDetailViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.EventDetailViewModelFactory
@@ -39,11 +35,8 @@ class EventDetailActivity : AppCompatActivity() {
         eventId.let {
             id -> Log.d("TEST", id.toString())
             viewModel.fetchEventById(id)
-<<<<<<< Updated upstream
-=======
             viewModel.checkIsFavoriteEvent(id)
 
->>>>>>> Stashed changes
         }
 
         viewModel.isLoading.observe(this) {isLoading ->

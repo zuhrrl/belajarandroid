@@ -24,11 +24,7 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="16dp"/>
 
-<<<<<<< Updated upstream
-        <com.google.android.material.switchmaterial.SwitchMaterial
-=======
         <Switch
->>>>>>> Stashed changes
             android:id="@+id/switch_theme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

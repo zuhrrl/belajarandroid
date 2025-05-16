@@ -18,7 +18,5 @@ object Injection {
         return SettingPreferences.getInstance(context.dataStore)
     }
 
-    fun providePrefs(context: Context): SettingPreferences {
-        return SettingPreferences.getInstance(context.dataStore)
-    }
+
 }

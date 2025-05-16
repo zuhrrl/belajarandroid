@@ -24,7 +24,6 @@ As you can see the id, android:id="@+id/upcoming_event" both of menu and navigat
 # To create a new activity, just extends the activity using AppCompatActivity()
 ```
 class EventDetailActivity : AppCompatActivity()
-<<<<<<< Updated upstream
 ```
 
 To create a new Entity please specify the table name like example:
@@ -41,6 +40,4 @@ repository-->remote;
 repository-->local;
 repository-->viewModel;
 viewModel-->view;
-=======
->>>>>>> Stashed changes
 ```

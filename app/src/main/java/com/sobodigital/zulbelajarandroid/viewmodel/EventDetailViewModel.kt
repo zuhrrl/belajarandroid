@@ -6,16 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sobodigital.zulbelajarandroid.data.Result
-<<<<<<< Updated upstream
-import com.sobodigital.zulbelajarandroid.data.model.EventDetailResponse
-import com.sobodigital.zulbelajarandroid.data.model.EventItem
-import com.sobodigital.zulbelajarandroid.data.remote.ApiConfig
-import com.sobodigital.zulbelajarandroid.data.repository.EventRepository
-=======
 import com.sobodigital.zulbelajarandroid.data.model.EventItem
 import com.sobodigital.zulbelajarandroid.data.repository.EventRepository
 import kotlinx.coroutines.delay
->>>>>>> Stashed changes
 import kotlinx.coroutines.launch
 
 class EventDetailViewModel(private val repository: EventRepository) : ViewModel() {
@@ -45,11 +38,7 @@ class EventDetailViewModel(private val repository: EventRepository) : ViewModel(
              when(val response = repository.fetchEventById(id)) {
                  is Result.Error -> {
                      _isLoading.value = false
-<<<<<<< Updated upstream
-                     _errorMessage.value = "Error: $response"
-=======
                      _errorMessage.value = "Error: ${response.error}"
->>>>>>> Stashed changes
                  }
                  Result.Loading -> {
                      _isLoading.value = true

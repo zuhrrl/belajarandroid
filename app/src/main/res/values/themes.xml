@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-<<<<<<< Updated upstream
-    <style name="Theme.AppCompat" parent="Theme.MaterialComponents.DayNight.NoActionBar" >
-    </style>
-
-
-=======
     <style name="Theme.AppCompat" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowTitleSize">0dp</item>
     </style>
->>>>>>> Stashed changes
 
     <style name="circleImageView" parent="">
         <item name="cornerFamily">rounded</item>
