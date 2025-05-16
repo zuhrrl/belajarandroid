@@ -25,3 +25,19 @@ As you can see the id, android:id="@+id/upcoming_event" both of menu and navigat
 ```
 class EventDetailActivity : AppCompatActivity()
 ```
+
+To create a new Entity please specify the table name like example:
+
+```
+@Entity(tableName = "favorites")
+```
+
+## Architecture
+```mermaid
+graph TD;
+view-->viewModel-->repository;
+repository-->remote;
+repository-->local;
+repository-->viewModel;
+viewModel-->view;
+```
