@@ -16,11 +16,11 @@ class EventAdapter(private val events: List<EventItem>) :
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<EventItem>() {
             override fun areItemsTheSame(oldItem: EventItem, newItem: EventItem): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: EventItem, newItem: EventItem): Boolean {
-                return oldItem == newItem
+                return oldItem.name == newItem.name
             }
         }
     }
@@ -28,6 +28,7 @@ class EventAdapter(private val events: List<EventItem>) :
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListEventViewHolder {
         val binding = ItemEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)

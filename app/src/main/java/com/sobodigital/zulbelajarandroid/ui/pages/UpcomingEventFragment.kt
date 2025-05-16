@@ -64,7 +64,7 @@ class UpcomingEventFragment : Fragment() {
         }
 
         eventMainViewModel.errorMessage.observe(viewLifecycleOwner) {message ->
-            Log.d("MainActivity", message)
+            Log.d(TAG, message)
             if(message.isNotEmpty() && listEvent.isEmpty()) {
                 binding.errorMessage.visibility = View.VISIBLE
                 binding.errorMessage.text = message
