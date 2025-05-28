@@ -7,28 +7,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sobodigital.zulbelajarandroid.data.model.EventItem
-import com.sobodigital.zulbelajarandroid.databinding.FragmentUpcomingEventBinding
-import com.sobodigital.zulbelajarandroid.ui.adapter.EventAdapter
-import com.sobodigital.zulbelajarandroid.viewmodel.EventMainViewModel
-import com.sobodigital.zulbelajarandroid.viewmodel.EventMainViewModelFactory
+import com.sobodigital.zulbelajarandroid.data.model.Story
+import com.sobodigital.zulbelajarandroid.databinding.FragmentFeedStoriesBinding
+import com.sobodigital.zulbelajarandroid.ui.adapter.StoryAdapter
+import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModel
+import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModelFactory
 
 
-class UpcomingEventFragment : Fragment() {
+class FeedFragment : Fragment() {
     private lateinit var eventRecyclerView: RecyclerView
-    private var listEvent = listOf<EventItem>()
+    private var stories = listOf<Story>()
 
-    private fun showRecyclerList(list: List<EventItem>) {
+    private fun showRecyclerList(list: List<Story>) {
         eventRecyclerView.layoutManager = LinearLayoutManager(context)
-        val adapter = EventAdapter(list)
+        val adapter = StoryAdapter(list)
         eventRecyclerView.adapter = adapter
 
-        adapter.setOnItemClickCallback(object: EventAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: EventItem) {
+        adapter.setOnItemClickCallback(object: StoryAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Story) {
                 val intent = Intent(context, EventDetailActivity::class.java)
                 intent.putExtra("event_id", data.id)
                 startActivity(intent)
@@ -41,20 +40,20 @@ class UpcomingEventFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentUpcomingEventBinding.inflate(layoutInflater)
+        val binding = FragmentFeedStoriesBinding.inflate(layoutInflater)
         eventRecyclerView = binding.rvEvent
 
-        val factory: EventMainViewModelFactory = EventMainViewModelFactory.getInstance(requireActivity())
-        val eventMainViewModel: EventMainViewModel by viewModels { factory }
+        val factory: FeedViewModelFactory = FeedViewModelFactory.getInstance(requireActivity())
+        val feedViewModel: FeedViewModel by viewModels { factory }
 
-        eventMainViewModel.fetchListEvent(1)
-        eventMainViewModel.listEvent.observe(viewLifecycleOwner) { data ->
+        feedViewModel.fetchStory()
+        feedViewModel.listEvent.observe(viewLifecycleOwner) { data ->
             Log.d(TAG, "OBSERVER $data")
-            listEvent = data
-            showRecyclerList(listEvent)
+            stories = data
+            showRecyclerList(stories)
         }
 
-        eventMainViewModel.isLoading.observe(viewLifecycleOwner) { isloading ->
+        feedViewModel.isLoading.observe(viewLifecycleOwner) { isloading ->
             if(isloading) {
                 binding.loading.visibility = View.VISIBLE
                 return@observe
@@ -63,9 +62,9 @@ class UpcomingEventFragment : Fragment() {
             return@observe
         }
 
-        eventMainViewModel.errorMessage.observe(viewLifecycleOwner) {message ->
+        feedViewModel.errorMessage.observe(viewLifecycleOwner) { message ->
             Log.d(TAG, message)
-            if(message.isNotEmpty() && listEvent.isEmpty()) {
+            if(message.isNotEmpty() && stories.isEmpty()) {
                 binding.errorMessage.visibility = View.VISIBLE
                 binding.errorMessage.text = message
                 return@observe

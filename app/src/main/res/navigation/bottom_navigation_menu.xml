@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/feed"
-        android:name="com.sobodigital.zulbelajarandroid.ui.pages.UpcomingEventFragment"
+        android:name="com.sobodigital.zulbelajarandroid.ui.pages.FeedFragment"
         android:label="@string/feed"
-        tools:layout="@layout/fragment_upcoming_event" >
+        tools:layout="@layout/fragment_feed_stories" >
     </fragment>
 
     <fragment

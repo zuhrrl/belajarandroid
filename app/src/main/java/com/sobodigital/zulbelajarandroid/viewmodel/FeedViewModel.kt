@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sobodigital.zulbelajarandroid.data.Result
 import com.sobodigital.zulbelajarandroid.data.model.EventItem
+import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.data.repository.EventRepository
+import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
 import kotlinx.coroutines.launch
 
-class EventMainViewModel(private val repository: EventRepository) : ViewModel() {
-    private val _listEvent = MutableLiveData<List<EventItem>>()
+class FeedViewModel(private val repository: StoryRepository) : ViewModel() {
+    private val _listEvent = MutableLiveData<List<Story>>()
     val listEvent = _listEvent
 
     private val _isLoading = MutableLiveData<Boolean>()
@@ -19,15 +21,11 @@ class EventMainViewModel(private val repository: EventRepository) : ViewModel() 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
-    companion object{
-        private const val TAG = "MainViewModel"
-    }
-
-    fun fetchListEvent(active: Int) {
+    fun fetchStory() {
         viewModelScope.launch {
             _errorMessage.value = ""
             _isLoading.value = true
-            when(val response = repository.fetchListEvent(active)) {
+            when(val response = repository.fetchStories()) {
                 is Result.Error -> {
                     _isLoading.value = false
                     _errorMessage.value = "Error: ${response.error}"
@@ -39,8 +37,16 @@ class EventMainViewModel(private val repository: EventRepository) : ViewModel() 
                     _isLoading.value = false
                     _listEvent.value = response.data
                 }
+                null -> {
+                    _isLoading.value = false
+                    _errorMessage.value = "Error: Unimplemented!"
+                }
             }
         }
 
+    }
+
+    companion object{
+        private var TAG = FeedViewModel::class.java.simpleName
     }
 }

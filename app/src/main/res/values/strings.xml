@@ -10,5 +10,7 @@
     <string name="full_name">Full Name</string>
     <string name="daftar">Daftar</string>
     <string name="feed">Feed</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
 
 </resources>

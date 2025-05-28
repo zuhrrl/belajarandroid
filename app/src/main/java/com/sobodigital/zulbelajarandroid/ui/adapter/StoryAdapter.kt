@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sobodigital.zulbelajarandroid.data.model.EventItem
-import com.sobodigital.zulbelajarandroid.databinding.ItemEventBinding
+import com.sobodigital.zulbelajarandroid.data.model.Story
+import com.sobodigital.zulbelajarandroid.databinding.ItemStoryBinding
 
-class EventAdapter(private val events: List<EventItem>) :
-   ListAdapter<EventItem, EventAdapter.ListEventViewHolder>(DIFF_CALLBACK) {
+class StoryAdapter(private val stories: List<Story>) :
+   ListAdapter<EventItem, StoryAdapter.ListEventViewHolder>(DIFF_CALLBACK) {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     companion object {
@@ -31,13 +32,13 @@ class EventAdapter(private val events: List<EventItem>) :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListEventViewHolder {
-        val binding = ItemEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListEventViewHolder(binding)
     }
 
 
     override fun onBindViewHolder(holder: ListEventViewHolder, position: Int) {
-        val item = events[position]
+        val item = stories[position]
         holder.bind(item)
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(item)
@@ -45,17 +46,18 @@ class EventAdapter(private val events: List<EventItem>) :
     }
 
     override fun getItemCount(): Int {
-        return events.size
+        return stories.size
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: EventItem)
+        fun onItemClicked(data: Story)
     }
 
-    class ListEventViewHolder(private val binding: ItemEventBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(review: EventItem){
-            Glide.with(binding.root).load(review.imageLogo).into(binding.imgEvent)
-            binding.title.text = review.name
+    class ListEventViewHolder(private val binding: ItemStoryBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: Story){
+            Glide.with(binding.root).load(item.photoUrl).into(binding.imgEvent)
+            binding.title.text = item.name
+            binding.description.text = item.description
         }
     }
 }

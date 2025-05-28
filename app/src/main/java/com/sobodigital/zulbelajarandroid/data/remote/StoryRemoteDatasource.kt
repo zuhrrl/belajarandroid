@@ -1,21 +1,17 @@
 package com.sobodigital.zulbelajarandroid.data.remote
 
 import com.sobodigital.zulbelajarandroid.data.model.EventDetailResponse
-import com.sobodigital.zulbelajarandroid.data.model.AuthParameter
-import com.sobodigital.zulbelajarandroid.data.model.LoginResponse
+import com.sobodigital.zulbelajarandroid.data.model.StoriesResponse
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
+interface StoryRemoteDatasource {
 
-interface AuthRemoteDataSource {
-
-    @POST("v1/login")
-    suspend fun authWithEmail(
-        @Body authParameter: AuthParameter
-    ): Response<LoginResponse>
+    @GET("v1/stories")
+    suspend fun fetchStories(
+    ): Response<StoriesResponse>
 
     @GET("events/{id}")
     suspend fun fetchEventById(

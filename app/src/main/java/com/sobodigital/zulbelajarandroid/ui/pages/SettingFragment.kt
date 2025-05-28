@@ -5,14 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
-import com.sobodigital.zulbelajarandroid.R
-import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
-import com.sobodigital.zulbelajarandroid.data.local.dataStore
 import com.sobodigital.zulbelajarandroid.databinding.FragmentSettingBinding
-import com.sobodigital.zulbelajarandroid.viewmodel.EventMainViewModel
-import com.sobodigital.zulbelajarandroid.viewmodel.EventMainViewModelFactory
 import com.sobodigital.zulbelajarandroid.viewmodel.SettingViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.SettingViewModelFactory
 
