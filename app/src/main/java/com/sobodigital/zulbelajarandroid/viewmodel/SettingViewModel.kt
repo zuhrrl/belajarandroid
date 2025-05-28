@@ -1,5 +1,6 @@
 package com.sobodigital.zulbelajarandroid.viewmodel
 
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -8,13 +9,13 @@ import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
 import kotlinx.coroutines.launch
 
 class SettingViewModel (private val pref: SettingPreferences) : ViewModel() {
-    fun getThemeSettings(): LiveData<Boolean> {
-        return pref.getThemeSetting().asLiveData()
+    fun getThemeSettings(): LiveData<Any> {
+        return pref.getPreferenceSetting(SettingPreferences.THEME_KEY).asLiveData()
     }
 
     fun saveThemeSetting(isDarkModeActive: Boolean) {
         viewModelScope.launch {
-            pref.saveThemeSetting(isDarkModeActive)
+            pref.saveThemeSetting(SettingPreferences.THEME_KEY, isDarkModeActive)
         }
     }
 }

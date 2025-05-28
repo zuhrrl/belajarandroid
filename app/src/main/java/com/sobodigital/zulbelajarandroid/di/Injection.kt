@@ -5,13 +5,21 @@ import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
 import com.sobodigital.zulbelajarandroid.data.local.dataStore
 import com.sobodigital.zulbelajarandroid.data.remote.ApiConfig
 import com.sobodigital.zulbelajarandroid.data.local.LocalDataSource
+import com.sobodigital.zulbelajarandroid.data.remote.ApiService
+import com.sobodigital.zulbelajarandroid.data.remote.AuthRemoteDataSource
+import com.sobodigital.zulbelajarandroid.data.repository.AuthRepository
 import com.sobodigital.zulbelajarandroid.data.repository.EventRepository
 
 object Injection {
     fun provideEventRepository(context: Context): EventRepository {
-        val apiService = ApiConfig.getApiService()
+        val dataSource = ApiConfig.getDataSource(ApiService::class.java)
         val localDataSource = LocalDataSource.getInstance(context)
-        return EventRepository.getInstance(apiService, localDataSource)
+        return EventRepository.getInstance(dataSource, localDataSource)
+    }
+
+    fun provideAuthRepository(context: Context): AuthRepository {
+        val authDataSource = ApiConfig.getDataSource(AuthRemoteDataSource::class.java)
+        return AuthRepository.getInstance(authDataSource)
     }
 
     fun providePrefs(context: Context): SettingPreferences {

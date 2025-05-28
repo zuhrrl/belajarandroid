@@ -35,8 +35,8 @@ class SettingFragment : Fragment() {
         val factory: SettingViewModelFactory = SettingViewModelFactory.getInstance(requireContext())
         val viewModel: SettingViewModel by viewModels { factory }
 
-        viewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
-            binding.switchTheme.isChecked = isDarkModeActive
+        viewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Any ->
+            binding.switchTheme.isChecked = isDarkModeActive as Boolean
         }
 
         binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
@@ -46,11 +46,4 @@ class SettingFragment : Fragment() {
         return binding.root
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingFragment().apply {
-
-            }
-    }
 }

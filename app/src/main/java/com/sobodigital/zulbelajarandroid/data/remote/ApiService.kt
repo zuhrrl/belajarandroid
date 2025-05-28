@@ -18,5 +18,4 @@ interface ApiService {
         @Path("id") id: Int
     ): Response<EventDetailResponse>
 
-
 }

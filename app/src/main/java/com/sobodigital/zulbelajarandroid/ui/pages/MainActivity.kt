@@ -23,11 +23,6 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
     }
 
-    private fun isSystemDarkModeOn(): Boolean {
-        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        return currentNightMode == Configuration.UI_MODE_NIGHT_YES
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = MainActivityBinding.inflate(layoutInflater)
@@ -40,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         val factory: SettingViewModelFactory = SettingViewModelFactory.getInstance(this)
         val viewModel: SettingViewModel by viewModels { factory }
 
-        viewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
-            if (isDarkModeActive) {
+        viewModel.getThemeSettings().observe(this) { isDarkModeActive: Any ->
+            if (isDarkModeActive as Boolean) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 return@observe
             }

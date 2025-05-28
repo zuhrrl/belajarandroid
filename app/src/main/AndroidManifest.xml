@@ -17,11 +17,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.pages.EventDetailActivity"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat" />
+            android:name=".ui.pages.RegisterActivity"
+            android:exported="false" />
         <activity
-            android:name=".ui.pages.MainActivity"
+            android:name=".ui.pages.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat">
             <intent-filter>
@@ -29,6 +28,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.pages.EventDetailActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name=".ui.pages.MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat">
+
         </activity>
     </application>
 

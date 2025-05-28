@@ -1,12 +1,14 @@
 <resources>
     <string name="app_name">ZulEventDicoding</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="upcoming_event">Upcoming</string>
     <string name="finished_event">Finished</string>
     <string name="upcoming">Upcoming</string>
     <string name="finished">Finished</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="favorite">Favorite</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="full_name">Full Name</string>
+    <string name="daftar">Daftar</string>
+    <string name="feed">Feed</string>
 
 </resources>
