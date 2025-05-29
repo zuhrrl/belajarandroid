@@ -9,16 +9,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.sobodigital.zulbelajarandroid.data.model.AuthParameter
 import com.sobodigital.zulbelajarandroid.databinding.ActivityLoginBinding
+import com.sobodigital.zulbelajarandroid.utils.navigateHome
 import com.sobodigital.zulbelajarandroid.viewmodel.AuthViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.AuthViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-
-    fun navigateHome() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,13 +49,18 @@ class LoginActivity : AppCompatActivity() {
             if(data.error!!) {
                 return@observe
             }
-            navigateHome()
+            navigateHome(this)
         }
 
         binding.btnLogin.setOnClickListener {
             val param = AuthParameter(email = "zulemailtest@gmail.com",
                 password = "zulemailtest@gmail.com")
             viewModel.authWithEmail(param)
+        }
+
+        binding.btnRegister.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
     }
 

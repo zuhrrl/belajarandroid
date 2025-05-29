@@ -28,9 +28,7 @@ class StoryDetailViewModel(private val repository: StoryRepository) : ViewModel(
                      _isLoading.value = false
                      _errorMessage.value = "Error: ${response.error}"
                  }
-                 Result.Loading -> {
-                     _isLoading.value = true
-                 }
+
                  is Result.Success -> {
                      _isLoading.value = false
                      _story.value = response.data

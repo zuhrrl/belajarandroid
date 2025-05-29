@@ -45,7 +45,7 @@
                android:textStyle="bold"
                android:layout_margin="16dp"
                android:layout_gravity="center_horizontal"
-               android:text="Login App">
+               android:text="@string/app_name">
 
            </TextView>
 
@@ -66,14 +66,32 @@
                android:hint="@string/password">
            </EditText>
 
-           <Button
-               android:id="@+id/btn_login"
+           <LinearLayout
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_gravity="center_horizontal"
-               android:text="Login">
+               android:orientation="horizontal">
+               <Button
+                   android:id="@+id/btn_login"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center_horizontal"
+                   android:text="@string/login">
 
-           </Button>
+               </Button>
+
+               <View
+                   android:layout_width="30dp"
+                   android:layout_height="wrap_content"/>
+               <Button
+                   android:id="@+id/btn_register"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center_horizontal"
+                   android:text="@string/register">
+
+               </Button>
+           </LinearLayout>
 
        </LinearLayout>
    </ScrollView>

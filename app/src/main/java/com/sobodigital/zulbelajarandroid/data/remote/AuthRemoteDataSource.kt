@@ -3,6 +3,8 @@ package com.sobodigital.zulbelajarandroid.data.remote
 import com.sobodigital.zulbelajarandroid.data.model.EventDetailResponse
 import com.sobodigital.zulbelajarandroid.data.model.AuthParameter
 import com.sobodigital.zulbelajarandroid.data.model.LoginResponse
+import com.sobodigital.zulbelajarandroid.data.model.RegisterParameter
+import com.sobodigital.zulbelajarandroid.data.model.RegisterResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -17,9 +19,9 @@ interface AuthRemoteDataSource {
         @Body authParameter: AuthParameter
     ): Response<LoginResponse>
 
-    @GET("events/{id}")
-    suspend fun fetchEventById(
-        @Path("id") id: Int
-    ): Response<EventDetailResponse>
+    @POST("v1/register")
+    suspend fun register(
+        @Body registerParameter: RegisterParameter
+    ): Response<RegisterResponse>
 
 }

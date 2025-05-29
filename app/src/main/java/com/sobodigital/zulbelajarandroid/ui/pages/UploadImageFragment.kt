@@ -13,14 +13,14 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.sobodigital.zulbelajarandroid.databinding.UploadImageFragmentBinding
 import com.sobodigital.zulbelajarandroid.utils.getImageUri
-import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModel
-import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModelFactory
 import com.sobodigital.zulbelajarandroid.viewmodel.UploadViewModel
+import com.sobodigital.zulbelajarandroid.viewmodel.UploadViewModelFactory
 
 class UploadImageFragment : Fragment() {
     private lateinit var viewModel: UploadViewModel
@@ -51,7 +51,7 @@ class UploadImageFragment : Fragment() {
             ActivityResultContracts.PickVisualMedia()
             ) { uri: Uri? ->
         if (uri != null) {
-            viewModel.onGalleryImagePicked(uri, requireContext())
+            viewModel.onGalleryImagePicked(uri)
         } else {
             Log.d(TAG, "No media selected")
         }
@@ -66,10 +66,17 @@ class UploadImageFragment : Fragment() {
         ActivityResultContracts.TakePicture()
     ) { isSuccess ->
         if (isSuccess && uriImageFromCamera != null) {
-            viewModel.onGalleryImagePicked(uriImageFromCamera, requireContext())
+            viewModel.onCameraImagePicked(uriImageFromCamera)
             return@registerForActivityResult
         }
         Log.d(TAG, "No media selected")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val factory: UploadViewModelFactory = UploadViewModelFactory.getInstance(requireContext())
+        val uploadViewModel: UploadViewModel by viewModels { factory }
+        viewModel = uploadViewModel
     }
 
     override fun onCreateView(
@@ -78,13 +85,30 @@ class UploadImageFragment : Fragment() {
     ): View {
         val binding = UploadImageFragmentBinding.inflate(layoutInflater)
 
-        val uploadViewModel: UploadViewModel by viewModels()
-        viewModel = uploadViewModel
-
         viewModel.fileFromGallery.observe(viewLifecycleOwner) {file ->
             if(file != null) {
-                Glide.with(this).load(file).into(binding.imagePreview)
+                Glide.with(requireContext()).load(file).into(binding.imagePreview)
             }
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {isLoading ->
+            if(isLoading) {
+                binding.loading.visibility = View.VISIBLE
+                return@observe
+            }
+            binding.loading.visibility = View.GONE
+            return@observe
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) {message ->
+            Log.d(TAG, message)
+            if(message.isNotEmpty()) {
+                binding.errorMessage.visibility = View.VISIBLE
+                binding.errorMessage.text = message
+                return@observe
+            }
+            binding.errorMessage.visibility = View.GONE
+            return@observe
         }
 
         binding.btnFromGallery.setOnClickListener {

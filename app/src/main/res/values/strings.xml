@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ZulEventDicoding</string>
+    <string name="app_name">Zul Story App</string>
     <string name="upcoming_event">Upcoming</string>
     <string name="finished_event">Finished</string>
     <string name="upcoming">Upcoming</string>
@@ -15,5 +15,7 @@
     <string name="add_story">Add Story</string>
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
 
 </resources>

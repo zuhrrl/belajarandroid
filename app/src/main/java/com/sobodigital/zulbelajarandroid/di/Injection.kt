@@ -10,6 +10,7 @@ import com.sobodigital.zulbelajarandroid.data.remote.AuthRemoteDataSource
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
 import com.sobodigital.zulbelajarandroid.data.repository.AuthRepository
 import com.sobodigital.zulbelajarandroid.data.repository.EventRepository
+import com.sobodigital.zulbelajarandroid.data.repository.LocalRepository
 import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
@@ -21,6 +22,11 @@ object Injection {
         val token = pref.getPreferenceSetting(SettingPreferences.AUTH_TOKEN_KEY)
         return runBlocking { token.firstOrNull() ?: "" } as String
     }
+
+    fun provideLocalRepository(context: Context) : LocalRepository {
+        return LocalRepository.getInstance(context)
+    }
+
     fun provideEventRepository(context: Context): EventRepository {
         val token = provideToken(context)
         val dataSource = ApiConfig.getDataSource(ApiService::class.java, token)
@@ -33,7 +39,6 @@ object Injection {
         val dataSource = ApiConfig.getDataSource(StoryRemoteDataSource::class.java, token)
         return StoryRepository.getInstance(dataSource)
     }
-
 
     fun provideAuthRepository(context: Context): AuthRepository {
         val pref = SettingPreferences.getInstance(context.dataStore)
