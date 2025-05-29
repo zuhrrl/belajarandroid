@@ -6,14 +6,11 @@
         android:id="@+id/feed"
         android:title="@string/feed"
         android:icon="@drawable/home_24px"/>
+
     <item
-        android:id="@+id/event_finished"
-        android:title="@string/finished"
-        android:icon="@drawable/check_24px"/>
-    <item
-        android:id="@+id/favorite_event"
-        android:title="@string/favorite"
-        android:icon="@drawable/star_24px"/>
+        android:id="@+id/add_story"
+        android:title="@string/add_story"
+        android:icon="@drawable/add_24px"/>
     <item
         android:id="@+id/setting_page"
         android:title="Setting"

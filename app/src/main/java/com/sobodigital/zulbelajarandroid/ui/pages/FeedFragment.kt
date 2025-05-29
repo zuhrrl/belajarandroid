@@ -28,8 +28,8 @@ class FeedFragment : Fragment() {
 
         adapter.setOnItemClickCallback(object: StoryAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Story) {
-                val intent = Intent(context, EventDetailActivity::class.java)
-                intent.putExtra("event_id", data.id)
+                val intent = Intent(context, StoryDetailActivity::class.java)
+                intent.putExtra("id", data.id)
                 startActivity(intent)
             }
 

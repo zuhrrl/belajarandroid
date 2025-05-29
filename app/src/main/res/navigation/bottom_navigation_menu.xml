@@ -13,24 +13,17 @@
     </fragment>
 
     <fragment
-        android:id="@+id/event_finished"
-        android:name="com.sobodigital.zulbelajarandroid.ui.pages.FinishedEventFragment"
-        android:label="@string/finished_event"
-        tools:layout="@layout/fragment_finished_event" >
-    </fragment>
-
-    <fragment
-        android:id="@+id/favorite_event"
-        android:name="com.sobodigital.zulbelajarandroid.ui.pages.FavoriteEventFragment"
-        android:label="@string/finished_event"
-        tools:layout="@layout/fragment_finished_event" >
+        android:id="@+id/add_story"
+        android:name="com.sobodigital.zulbelajarandroid.ui.pages.UploadImageFragment"
+        android:label="@string/add_story"
+        tools:layout="@layout/upload_image_fragment" >
     </fragment>
 
     <fragment
         android:id="@+id/setting_page"
         android:name="com.sobodigital.zulbelajarandroid.ui.pages.SettingFragment"
         android:label="@string/finished_event"
-        tools:layout="@layout/fragment_finished_event" >
+        tools:layout="@layout/upload_image_fragment" >
     </fragment>
 
 </navigation>

@@ -1,19 +1,16 @@
 package com.sobodigital.zulbelajarandroid.di
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.asLiveData
 import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
 import com.sobodigital.zulbelajarandroid.data.local.dataStore
 import com.sobodigital.zulbelajarandroid.data.remote.ApiConfig
 import com.sobodigital.zulbelajarandroid.data.local.LocalDataSource
 import com.sobodigital.zulbelajarandroid.data.remote.ApiService
 import com.sobodigital.zulbelajarandroid.data.remote.AuthRemoteDataSource
-import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDatasource
+import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
 import com.sobodigital.zulbelajarandroid.data.repository.AuthRepository
 import com.sobodigital.zulbelajarandroid.data.repository.EventRepository
 import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 
@@ -33,7 +30,7 @@ object Injection {
 
     fun provideStoryRepository(context: Context): StoryRepository {
         val token = provideToken(context)
-        val dataSource = ApiConfig.getDataSource(StoryRemoteDatasource::class.java, token)
+        val dataSource = ApiConfig.getDataSource(StoryRemoteDataSource::class.java, token)
         return StoryRepository.getInstance(dataSource)
     }
 
