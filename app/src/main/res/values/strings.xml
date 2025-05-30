@@ -17,5 +17,6 @@
     <string name="camera">Camera</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
 
 </resources>

@@ -19,13 +19,13 @@ class StoryRepository(private val storyRemoteDatasource: StoryRemoteDataSource) 
                 if(!response.isSuccessful) {
                     val errorJsonString = response.errorBody()?.string()
                     val error = Gson().fromJson(errorJsonString, ErrorResponse::class.java)
-                    Log.e(TAG, "Error fetch: ${response}")
+                    Log.e(TAG, "Error fetch: ${error}")
                     val unauthorizedCodes = listOf(401, 403, 419, 415)
 
                     if(response.code() in unauthorizedCodes) {
-                        return@withContext Result.Error(error.message ?: "Unknown error!")
+                        return@withContext Result.Error(error.message ?: "Unknown error!", response.code())
                     }
-                    return@withContext Result.Error(response.errorBody().toString())
+                    return@withContext Result.Error(response.errorBody().toString(), response.code())
                 }
                 Log.d(TAG, response.body().toString())
                 return@withContext response.body()?.let { data ->

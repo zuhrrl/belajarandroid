@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.databinding.FragmentFeedStoriesBinding
 import com.sobodigital.zulbelajarandroid.ui.adapter.StoryAdapter
+import com.sobodigital.zulbelajarandroid.utils.navigateHome
+import com.sobodigital.zulbelajarandroid.utils.navigateToLogin
 import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModelFactory
 
@@ -62,9 +64,16 @@ class FeedFragment : Fragment() {
             return@observe
         }
 
-        feedViewModel.errorMessage.observe(viewLifecycleOwner) { message ->
-            Log.d(TAG, message)
-            if(message.isNotEmpty() && stories.isEmpty()) {
+        feedViewModel.errorData.observe(viewLifecycleOwner) { data ->
+            Log.e(TAG, "error data $data")
+            val message = data?.error
+
+            if(data?.code == 401) {
+                feedViewModel.clearAllSetting()
+//                navigateToLogin(requireContext())
+                return@observe
+            }
+            if(message != null && stories.isEmpty()) {
                 binding.errorMessage.visibility = View.VISIBLE
                 binding.errorMessage.text = message
                 return@observe

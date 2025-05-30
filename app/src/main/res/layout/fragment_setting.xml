@@ -30,8 +30,18 @@
             android:layout_height="wrap_content"
             android:text="Dark Mode"
             android:textSize="14sp"
-            tools:ignore="HardcodedText" />
+            android:layout_gravity="center_vertical"
+            tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/logout">
+
+    </Button>
 
 </LinearLayout>

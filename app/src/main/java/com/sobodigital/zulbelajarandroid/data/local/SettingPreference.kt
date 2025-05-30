@@ -1,6 +1,7 @@
 package com.sobodigital.zulbelajarandroid.data.local
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -24,6 +25,12 @@ class SettingPreferences private constructor(private val dataStore: DataStore<Pr
     suspend fun <T> saveSetting(key: Preferences.Key<T>, value: T) {
         dataStore.edit { preferences ->
             preferences[key] = value
+        }
+    }
+
+    suspend fun clearAllPreference() {
+        dataStore.edit { preferences ->
+            preferences.clear()
         }
     }
 

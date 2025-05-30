@@ -7,11 +7,18 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
+import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
 import com.sobodigital.zulbelajarandroid.data.model.AuthParameter
 import com.sobodigital.zulbelajarandroid.databinding.ActivityLoginBinding
+import com.sobodigital.zulbelajarandroid.di.Injection
 import com.sobodigital.zulbelajarandroid.utils.navigateHome
 import com.sobodigital.zulbelajarandroid.viewmodel.AuthViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.AuthViewModelFactory
+import com.sobodigital.zulbelajarandroid.viewmodel.SettingViewModel
+import com.sobodigital.zulbelajarandroid.viewmodel.SettingViewModelFactory
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -24,6 +31,18 @@ class LoginActivity : AppCompatActivity() {
 
         val factory: AuthViewModelFactory = AuthViewModelFactory.getInstance(this)
         val viewModel: AuthViewModel by viewModels { factory }
+
+        val settingFactory: SettingViewModelFactory = SettingViewModelFactory.getInstance(this)
+        val settingViewModel: SettingViewModel by viewModels { settingFactory }
+
+        settingViewModel.checkIsLoggedIn()
+        settingViewModel.isLoggedIn.observe(this) {isLoggedIn ->
+            Log.d(TAG,"status $isLoggedIn")
+            if(isLoggedIn) {
+                navigateHome(this)
+                return@observe
+            }
+        }
 
         viewModel.isLoading.observe(this) {isLoading ->
             if(isLoading) {
