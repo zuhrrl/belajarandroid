@@ -3,12 +3,14 @@ package com.sobodigital.zulbelajarandroid.ui.pages
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.sobodigital.zulbelajarandroid.data.model.RegisterParameter
 import com.sobodigital.zulbelajarandroid.databinding.ActivityRegisterBinding
 import com.sobodigital.zulbelajarandroid.utils.navigateHome
+import com.sobodigital.zulbelajarandroid.utils.navigateToLogin
 import com.sobodigital.zulbelajarandroid.viewmodel.AuthViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.AuthViewModelFactory
 
@@ -38,24 +40,28 @@ class RegisterActivity : AppCompatActivity() {
             if(message.isNotEmpty()) {
                 binding.errorMessage.visibility = View.VISIBLE
                 binding.errorMessage.text = message
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                 return@observe
             }
             binding.errorMessage.visibility = View.GONE
             return@observe
         }
 
-        viewModel.authResponse.observe(this) {data ->
+        viewModel.registerResponse.observe(this) {data ->
             if(data.error!!) {
                 return@observe
             }
-            navigateHome(this)
+            navigateToLogin(this)
         }
 
         binding.btnRegister.setOnClickListener {
+            val name = binding.fullName.text.toString().trim()
+            val email = binding.email.text.toString().trim()
+            val password = binding.password.text.toString().trim()
             val param = RegisterParameter(
-                name = "Zul Coba coba",
-                email = "zulemailtest1@gmail.com",
-                password = "zulemailtest1@gmail.com")
+                name = name,
+                email = email,
+                password = password)
             viewModel.register(param)
         }
 

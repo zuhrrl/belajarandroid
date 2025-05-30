@@ -6,9 +6,15 @@ import com.google.gson.Gson
 import com.sobodigital.zulbelajarandroid.data.Result
 import com.sobodigital.zulbelajarandroid.data.model.ErrorResponse
 import com.sobodigital.zulbelajarandroid.data.model.Story
+import com.sobodigital.zulbelajarandroid.data.model.UploadResponse
+import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class StoryRepository(private val storyRemoteDatasource: StoryRemoteDataSource) {
 
@@ -56,6 +62,41 @@ class StoryRepository(private val storyRemoteDatasource: StoryRemoteDataSource) 
                 Log.d(TAG, response.body().toString())
                 return@withContext response.body()?.let { data ->
                     Result.Success(data.story) }
+            } catch (e: Exception) {
+                val message = e.localizedMessage!!
+                Result.Error(message)
+            }
+        }
+
+    }
+
+    suspend fun uploadStory(param: UploadStoryParameter): Result<UploadResponse?>? {
+        val description = param.description?.toRequestBody("text/plain".toMediaType())
+        val requestImageFile = param.file?.asRequestBody("image/jpeg".toMediaType())
+        val photoMultipartBody = requestImageFile?.let {
+            MultipartBody.Part.createFormData(
+                "photo",
+                param.file.name,
+                it
+            )
+        }
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = storyRemoteDatasource.uploadStory(photoMultipartBody!!, description!!)
+                if(!response.isSuccessful) {
+                    val errorJsonString = response.errorBody()?.string()
+                    val error = Gson().fromJson(errorJsonString, ErrorResponse::class.java)
+                    Log.e(TAG, "Error fetch: ${response}")
+                    val unauthorizedCodes = listOf(401,404, 403, 419, 415)
+
+                    if(response.code() in unauthorizedCodes) {
+                        return@withContext Result.Error(error.message ?: "Unknown error!")
+                    }
+                    return@withContext Result.Error(response.errorBody().toString())
+                }
+                Log.d(TAG, response.body().toString())
+                return@withContext response.body()?.let { data ->
+                    Result.Success(data) }
             } catch (e: Exception) {
                 val message = e.localizedMessage!!
                 Result.Error(message)

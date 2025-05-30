@@ -17,14 +17,18 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
 import com.sobodigital.zulbelajarandroid.databinding.UploadImageFragmentBinding
 import com.sobodigital.zulbelajarandroid.utils.getImageUri
+import com.sobodigital.zulbelajarandroid.utils.navigateHome
 import com.sobodigital.zulbelajarandroid.viewmodel.UploadViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.UploadViewModelFactory
+import java.io.File
 
 class UploadImageFragment : Fragment() {
     private lateinit var viewModel: UploadViewModel
     private var uriImageFromCamera: Uri? = null
+    private var selectedImage: File? = null
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -87,6 +91,14 @@ class UploadImageFragment : Fragment() {
 
         viewModel.fileFromGallery.observe(viewLifecycleOwner) {file ->
             if(file != null) {
+                selectedImage = file
+                Glide.with(requireContext()).load(file).into(binding.imagePreview)
+            }
+        }
+
+        viewModel.fileFromCamera.observe(viewLifecycleOwner) {file ->
+            if(file != null) {
+                selectedImage = file
                 Glide.with(requireContext()).load(file).into(binding.imagePreview)
             }
         }
@@ -111,6 +123,14 @@ class UploadImageFragment : Fragment() {
             return@observe
         }
 
+        viewModel.uploadStoryResponse.observe(viewLifecycleOwner) {data ->
+            if(data.error!!) {
+                return@observe
+            }
+            Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
+            requireActivity().onBackPressed()
+        }
+
         binding.btnFromGallery.setOnClickListener {
             startGallery(launcherGallery)
         }
@@ -121,6 +141,14 @@ class UploadImageFragment : Fragment() {
                 return@setOnClickListener
             }
             startCamera()
+        }
+
+        binding.btnUploadStory.setOnClickListener {
+            val description = binding.etDescription.text.toString().trim()
+            selectedImage.let { file ->
+                val param = UploadStoryParameter(file = file, description = description)
+                viewModel.uploadStory(param)
+            }
         }
 
         return binding.root

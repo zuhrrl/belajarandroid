@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -58,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
             if(message.isNotEmpty()) {
                 binding.errorMessage.visibility = View.VISIBLE
                 binding.errorMessage.text = message
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                 return@observe
             }
             binding.errorMessage.visibility = View.GONE
@@ -72,8 +74,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            val param = AuthParameter(email = "zulemailtest@gmail.com",
-                password = "zulemailtest@gmail.com")
+            val email = binding.email.text.toString().trim()
+            val password = binding.password.text.toString().trim()
+            val param = AuthParameter(email = email,
+                password = password)
             viewModel.authWithEmail(param)
         }
 
