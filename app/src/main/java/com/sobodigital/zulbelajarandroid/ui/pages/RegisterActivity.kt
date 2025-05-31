@@ -51,6 +51,7 @@ class RegisterActivity : AppCompatActivity() {
             if(data.error!!) {
                 return@observe
             }
+            Toast.makeText(this, data.message, Toast.LENGTH_SHORT).show()
             navigateToLogin(this)
         }
 

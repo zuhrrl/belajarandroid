@@ -13,12 +13,12 @@ import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
 import com.sobodigital.zulbelajarandroid.R
 import com.sobodigital.zulbelajarandroid.data.model.EventItem
-import com.sobodigital.zulbelajarandroid.databinding.EventDetailBinding
+import com.sobodigital.zulbelajarandroid.databinding.StoryDetailBinding
 import com.sobodigital.zulbelajarandroid.viewmodel.StoryDetailViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.StoryDetailViewModelFactory
 
 class StoryDetailActivity : AppCompatActivity() {
-    private lateinit var binding: EventDetailBinding
+    private lateinit var binding: StoryDetailBinding
     var eventItem: EventItem? = null
 
     @SuppressLint("SetTextI18n")
@@ -26,7 +26,7 @@ class StoryDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val storyId = intent.getStringExtra("id")
 
-        binding = EventDetailBinding.inflate(layoutInflater)
+        binding = StoryDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val factory: StoryDetailViewModelFactory = StoryDetailViewModelFactory.getInstance(this)
