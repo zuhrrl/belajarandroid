@@ -10,6 +10,7 @@
        android:layout_height="wrap_content"
        app:cardCornerRadius="8dp"
        android:layout_marginBottom="16dp"
+       app:cardBackgroundColor="@color/card_color"
        android:elevation="10dp">
 
       <LinearLayout
@@ -39,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="3"
                 android:ellipsize="end"
+                android:textColor="@color/text_color"
                 android:text="@string/title"/>
 
             <TextView
@@ -47,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="3"
                 android:ellipsize="end"
+                android:textColor="@color/text_color"
                 android:text="@string/description"/>
 
 

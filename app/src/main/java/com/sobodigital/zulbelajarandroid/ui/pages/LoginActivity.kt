@@ -90,14 +90,14 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
         val slideRight = ValueAnimator.ofFloat(0f, 10f).apply {
-            duration = 1000
+            duration = 1500
             addUpdateListener { updatedAnimation ->
                 binding.scrollView.translationX = updatedAnimation.animatedValue as Float
             }
         }
 
         val slideLeft = ValueAnimator.ofFloat(10f, 1f).apply {
-            duration = 500
+            duration = 1000
             addUpdateListener { updatedAnimation ->
                 binding.scrollView.translationX = updatedAnimation.animatedValue as Float
             }

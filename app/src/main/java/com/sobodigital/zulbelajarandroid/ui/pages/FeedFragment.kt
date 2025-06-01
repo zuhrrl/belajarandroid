@@ -1,5 +1,7 @@
 package com.sobodigital.zulbelajarandroid.ui.pages
 
+import android.animation.AnimatorSet
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -70,7 +72,6 @@ class FeedFragment : Fragment() {
 
             if(data?.code == 401) {
                 feedViewModel.clearAllSetting()
-//                navigateToLogin(requireContext())
                 return@observe
             }
             if(message != null && stories.isEmpty()) {
@@ -80,6 +81,25 @@ class FeedFragment : Fragment() {
             }
             binding.errorMessage.visibility = View.GONE
             return@observe
+        }
+
+        val slideRight = ValueAnimator.ofFloat(0f, 10f).apply {
+            duration = 1500
+            addUpdateListener { updatedAnimation ->
+                binding.rvEvent.translationX = updatedAnimation.animatedValue as Float
+            }
+        }
+
+        val slideLeft = ValueAnimator.ofFloat(10f, 1f).apply {
+            duration = 1000
+            addUpdateListener { updatedAnimation ->
+                binding.rvEvent.translationX = updatedAnimation.animatedValue as Float
+            }
+        }
+
+        AnimatorSet().apply {
+            play(slideRight).before(slideLeft)
+            start()
         }
 
         return binding.root

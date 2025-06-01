@@ -144,7 +144,7 @@ class UploadImageFragment : Fragment() {
         }
 
         binding.btnUploadStory.setOnClickListener {
-            val description = binding.etDescription.text.toString().trim()
+            val description = binding.edDescription.text.toString().trim()
             selectedImage.let { file ->
                 val param = UploadStoryParameter(file = file, description = description)
                 viewModel.uploadStory(param)

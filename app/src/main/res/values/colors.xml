@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#9AA6B2</color>
     <color name ="pink">#CC2B52</color>
+    <color name="text_color">#FF000000</color>
+    <color name="card_color">#F5F5F5</color>
+    <color name="ed_background_color">#F5F5F5</color>
 </resources>
