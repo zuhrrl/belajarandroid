@@ -1,5 +1,8 @@
 package com.sobodigital.zulbelajarandroid.ui.pages
 
+import android.animation.AnimatorSet
+import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -24,6 +27,7 @@ import kotlinx.coroutines.launch
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
+    @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -84,6 +88,24 @@ class LoginActivity : AppCompatActivity() {
         binding.btnRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+        }
+        val slideRight = ValueAnimator.ofFloat(0f, 10f).apply {
+            duration = 1000
+            addUpdateListener { updatedAnimation ->
+                binding.scrollView.translationX = updatedAnimation.animatedValue as Float
+            }
+        }
+
+        val slideLeft = ValueAnimator.ofFloat(10f, 1f).apply {
+            duration = 500
+            addUpdateListener { updatedAnimation ->
+                binding.scrollView.translationX = updatedAnimation.animatedValue as Float
+            }
+        }
+
+        AnimatorSet().apply {
+            play(slideRight).before(slideLeft)
+            start()
         }
     }
 
