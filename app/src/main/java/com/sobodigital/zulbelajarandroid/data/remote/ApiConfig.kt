@@ -1,15 +1,24 @@
 package com.sobodigital.zulbelajarandroid.data.remote
+import com.sobodigital.zulbelajarandroid.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 class ApiConfig {
+
+
     companion object{
+        private fun getLoggingInterceptor() : HttpLoggingInterceptor {
+            if(BuildConfig.DEBUG) {
+                return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            }
+            return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+        }
         fun <T> getDataSource(serviceClass: Class<T>, token: String? = null): T {
-            val loggingInterceptor =
-                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            val loggingInterceptor = getLoggingInterceptor()
 
             val authInterceptor = Interceptor { chain ->
                 val req = chain.request()

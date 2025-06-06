@@ -67,7 +67,7 @@ class FeedFragment : Fragment() {
         }
 
         feedViewModel.errorData.observe(viewLifecycleOwner) { data ->
-            Log.e(TAG, "error data $data")
+            Log.e(TAG, "Error data $data")
             val message = data?.error
 
             if(data?.code == 401) {
@@ -106,6 +106,6 @@ class FeedFragment : Fragment() {
     }
 
     companion object {
-        private const val TAG = "UpcomingEventFragment"
+        private val TAG = FeedFragment::class.java.simpleName
     }
 }
