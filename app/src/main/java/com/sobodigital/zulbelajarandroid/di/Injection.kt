@@ -2,6 +2,7 @@ package com.sobodigital.zulbelajarandroid.di
 
 import android.content.Context
 import android.util.Log
+import com.google.android.gms.maps.GoogleMap
 import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
 import com.sobodigital.zulbelajarandroid.data.local.dataStore
 import com.sobodigital.zulbelajarandroid.data.remote.ApiConfig
@@ -12,6 +13,7 @@ import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
 import com.sobodigital.zulbelajarandroid.data.repository.AuthRepository
 import com.sobodigital.zulbelajarandroid.data.repository.EventRepository
 import com.sobodigital.zulbelajarandroid.data.repository.LocalRepository
+import com.sobodigital.zulbelajarandroid.data.repository.MapsRepository
 import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
@@ -56,5 +58,8 @@ object Injection {
         return SettingPreferences.getInstance(context.dataStore)
     }
 
+    fun provideMapsRepository(context: Context): MapsRepository {
+        return MapsRepository.getInstance(context)
+    }
 
 }

@@ -12,12 +12,15 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface StoryRemoteDataSource {
 
     @GET("v1/stories")
     suspend fun fetchStories(
-    ): Response<StoriesResponse>
+        @Query("location") location : Int = 0,
+        ): Response<StoriesResponse>
+
 
     @GET("v1/stories/{id}")
     suspend fun fetchStoryById(

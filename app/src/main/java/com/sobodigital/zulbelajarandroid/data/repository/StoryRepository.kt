@@ -18,10 +18,17 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 class StoryRepository(private val storyRemoteDatasource: StoryRemoteDataSource) {
 
-    suspend fun fetchStories(): Result<List<Story>?>? {
+    private fun getLocationType(status: Boolean) : Int {
+        if(status) {
+            return 1
+        }
+        return 0
+    }
+    suspend fun fetchStories(isWithLocation: Boolean = false): Result<List<Story>?>? {
         return withContext(Dispatchers.IO) {
             try {
-                val response = storyRemoteDatasource.fetchStories()
+                val locationType = getLocationType(isWithLocation)
+                val response = storyRemoteDatasource.fetchStories(locationType)
                 if(!response.isSuccessful) {
                     val errorJsonString = response.errorBody()?.string()
                     val error = Gson().fromJson(errorJsonString, ErrorResponse::class.java)

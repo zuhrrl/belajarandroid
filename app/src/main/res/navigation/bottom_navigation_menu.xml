@@ -13,6 +13,13 @@
     </fragment>
 
     <fragment
+        android:id="@+id/story_maps"
+        android:name="com.sobodigital.zulbelajarandroid.ui.pages.StoryMapsFragment"
+        android:label="@string/story_maps"
+        tools:layout="@layout/upload_image_fragment" >
+    </fragment>
+
+    <fragment
         android:id="@+id/add_story"
         android:name="com.sobodigital.zulbelajarandroid.ui.pages.UploadImageFragment"
         android:label="@string/add_story"

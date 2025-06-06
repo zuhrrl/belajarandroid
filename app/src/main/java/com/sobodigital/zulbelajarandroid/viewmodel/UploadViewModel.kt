@@ -99,6 +99,7 @@ class UploadViewModel(private val localRepository: LocalRepository, private val 
             }
         }
     }
+
     companion object {
         private var TAG = UploadViewModel::class.java.simpleName
     }
