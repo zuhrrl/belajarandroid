@@ -10,27 +10,38 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.databinding.FragmentFeedStoriesBinding
+import com.sobodigital.zulbelajarandroid.ui.adapter.LoadingStateAdapter
 import com.sobodigital.zulbelajarandroid.ui.adapter.StoryAdapter
+import com.sobodigital.zulbelajarandroid.ui.adapter.StoryAdapterWithPaging
 import com.sobodigital.zulbelajarandroid.utils.navigateHome
 import com.sobodigital.zulbelajarandroid.utils.navigateToLogin
 import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.launch
 
 
 class FeedFragment : Fragment() {
-    private lateinit var eventRecyclerView: RecyclerView
+    private lateinit var storyRecylerView: RecyclerView
+    private lateinit var adapterWithPaging: StoryAdapterWithPaging
+    private lateinit var viewModel: FeedViewModel
     private var stories = listOf<Story>()
 
-    private fun showRecyclerList(list: List<Story>) {
-        eventRecyclerView.layoutManager = LinearLayoutManager(context)
-        val adapter = StoryAdapter(list)
-        eventRecyclerView.adapter = adapter
+    private fun showRecyclerList(pagingData: PagingData<Story>) {
+        storyRecylerView.layoutManager = LinearLayoutManager(context)
+        val adapter = StoryAdapterWithPaging()
+        adapterWithPaging = adapter
+        storyRecylerView.adapter = adapter
 
-        adapter.setOnItemClickCallback(object: StoryAdapter.OnItemClickCallback {
+        adapter.setOnItemClickCallback(object: StoryAdapterWithPaging.OnItemClickCallback {
             override fun onItemClicked(data: Story) {
                 val intent = Intent(context, StoryDetailActivity::class.java)
                 intent.putExtra("id", data.id)
@@ -38,6 +49,24 @@ class FeedFragment : Fragment() {
             }
 
         })
+
+        storyRecylerView.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
+
+        adapter.submitData(lifecycle, pagingData)
+
+        lifecycleScope.launch {
+            adapterWithPaging.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .collectLatest { loadState ->
+                    val isLoading = loadState.refresh is LoadState.Loading
+                    viewModel.setLoading(isLoading)
+                }
+        }
+
     }
 
     override fun onCreateView(
@@ -45,17 +74,18 @@ class FeedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentFeedStoriesBinding.inflate(layoutInflater)
-        eventRecyclerView = binding.rvEvent
+        storyRecylerView = binding.rvEvent
 
         val factory: FeedViewModelFactory = FeedViewModelFactory.getInstance(requireActivity())
         val feedViewModel: FeedViewModel by viewModels { factory }
+        viewModel = feedViewModel
 
-        feedViewModel.fetchStory()
-        feedViewModel.listEvent.observe(viewLifecycleOwner) { data ->
-            Log.d(TAG, "OBSERVER $data")
-            stories = data
-            showRecyclerList(stories)
-        }
+        feedViewModel.fetchStoryWithPaging()
+
+        feedViewModel.pagerData.observe(viewLifecycleOwner, { data ->
+            showRecyclerList(data)
+
+        })
 
         feedViewModel.isLoading.observe(viewLifecycleOwner) { isloading ->
             if(isloading) {

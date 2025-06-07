@@ -21,5 +21,6 @@
     <string name="story_maps">Story Maps</string>
     <string name="title_activity_story_maps">StoryMapsActivity</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="retry">Retry</string>
 
 </resources>

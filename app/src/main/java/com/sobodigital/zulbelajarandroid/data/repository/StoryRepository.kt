@@ -2,33 +2,33 @@ package com.sobodigital.zulbelajarandroid.data.repository
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.google.gson.Gson
 import com.sobodigital.zulbelajarandroid.data.Result
 import com.sobodigital.zulbelajarandroid.data.model.ErrorResponse
 import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.data.model.UploadResponse
 import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
+import com.sobodigital.zulbelajarandroid.data.paging.StoryPagingDataSource
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
-class StoryRepository(private val storyRemoteDatasource: StoryRemoteDataSource) {
+class StoryRepository(
+    private val storyRemoteDataSource: StoryRemoteDataSource) {
 
-    private fun getLocationType(status: Boolean) : Int {
-        if(status) {
-            return 1
-        }
-        return 0
-    }
-    suspend fun fetchStories(isWithLocation: Boolean = false): Result<List<Story>?>? {
+
+    suspend fun fetchStories(locationType: Int = 0): Result<List<Story>?>? {
         return withContext(Dispatchers.IO) {
             try {
-                val locationType = getLocationType(isWithLocation)
-                val response = storyRemoteDatasource.fetchStories(locationType)
+                val response = storyRemoteDataSource.fetchStories(locationType)
                 if(!response.isSuccessful) {
                     val errorJsonString = response.errorBody()?.string()
                     val error = Gson().fromJson(errorJsonString, ErrorResponse::class.java)
@@ -51,10 +51,29 @@ class StoryRepository(private val storyRemoteDatasource: StoryRemoteDataSource) 
 
     }
 
+    suspend fun fetchStoryWithPaging(): Result<Pager<Int, Story>> {
+        return withContext(Dispatchers.IO) {
+            try {
+               val pager = Pager(
+                    config = PagingConfig(
+                        pageSize = 5
+                    ),
+                    pagingSourceFactory = {
+                        StoryPagingDataSource(storyRemoteDataSource)
+                    }
+                )
+                Result.Success(pager)
+            } catch (e: Exception) {
+                val message = e.localizedMessage!!
+                Result.Error(message)
+            }
+        }
+    }
+
     suspend fun fetchStoryById(id: String): Result<Story?>? {
         return withContext(Dispatchers.IO) {
             try {
-                val response = storyRemoteDatasource.fetchStoryById(id)
+                val response = storyRemoteDataSource.fetchStoryById(id)
                 if(!response.isSuccessful) {
                     val errorJsonString = response.errorBody()?.string()
                     val error = Gson().fromJson(errorJsonString, ErrorResponse::class.java)
@@ -89,7 +108,7 @@ class StoryRepository(private val storyRemoteDatasource: StoryRemoteDataSource) 
         }
         return withContext(Dispatchers.IO) {
             try {
-                val response = storyRemoteDatasource.uploadStory(photoMultipartBody!!, description!!)
+                val response = storyRemoteDataSource.uploadStory(photoMultipartBody!!, description!!)
                 if(!response.isSuccessful) {
                     val errorJsonString = response.errorBody()?.string()
                     val error = Gson().fromJson(errorJsonString, ErrorResponse::class.java)
@@ -122,7 +141,8 @@ class StoryRepository(private val storyRemoteDatasource: StoryRemoteDataSource) 
             storyRemoteDatasource: StoryRemoteDataSource,
         ): StoryRepository =
             instance ?: synchronized(this) {
-                instance ?: StoryRepository(storyRemoteDatasource)
+                instance ?: StoryRepository(
+                    storyRemoteDatasource)
             }.also { instance = it }
     }
 }

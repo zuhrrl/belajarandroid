@@ -51,7 +51,7 @@ class StoryMapsViewModel(private val mapsRepository: MapsRepository, private val
         viewModelScope.launch {
             _errorData.value = Result.Error("")
             _isLoading.value = true
-            when(val response = repository.fetchStories(true)) {
+            when(val response = repository.fetchStories(1)) {
                 is Result.Error -> {
                     _isLoading.value = false
                     _errorData.value = response
@@ -74,8 +74,11 @@ class StoryMapsViewModel(private val mapsRepository: MapsRepository, private val
             _errorData.value = Result.Error("Cant add marker, stories is empty!")
             return
         }
+
         for(item in list) {
-           addMarker(item)
+            if(item.lat != null && item.lon != null) {
+                addMarker(item)
+            }
         }
     }
 
