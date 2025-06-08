@@ -1,10 +1,8 @@
 package com.sobodigital.zulbelajarandroid.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import android.content.Context
-import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
-import com.sobodigital.zulbelajarandroid.data.repository.EventRepository
 import com.sobodigital.zulbelajarandroid.data.repository.LocalRepository
 import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
 import com.sobodigital.zulbelajarandroid.di.Injection

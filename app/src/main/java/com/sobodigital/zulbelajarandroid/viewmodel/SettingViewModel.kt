@@ -1,19 +1,13 @@
 package com.sobodigital.zulbelajarandroid.viewmodel
 
-import android.util.Log
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
-import com.sobodigital.zulbelajarandroid.data.model.Story
-import com.sobodigital.zulbelajarandroid.ui.pages.RegisterActivity
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class SettingViewModel (private val pref: SettingPreferences) : ViewModel() {
     private val _isLoggedIn = MutableLiveData<Boolean>()

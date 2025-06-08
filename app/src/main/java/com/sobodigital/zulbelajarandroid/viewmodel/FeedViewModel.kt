@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -13,7 +12,6 @@ import com.sobodigital.zulbelajarandroid.data.Result
 import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.data.repository.LocalRepository
 import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class FeedViewModel(private val repository: StoryRepository, private val localRepository: LocalRepository) : ViewModel() {
@@ -76,12 +74,6 @@ class FeedViewModel(private val repository: StoryRepository, private val localRe
                 }
                 is Result.Success -> {
                     _isLoading.value = false
-//                    response.data.liveData
-//                        .asFlow()
-//                        .cachedIn(viewModelScope)
-//                        .collectLatest { data ->
-//                            _pagerData.value = data
-//                        }
                     val dataSourceResponse = response.data.liveData
                         .cachedIn(viewModelScope)
                     _pagingData.value = dataSourceResponse

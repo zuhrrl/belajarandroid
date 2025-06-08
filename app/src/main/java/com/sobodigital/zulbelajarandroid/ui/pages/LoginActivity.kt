@@ -11,18 +11,13 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.lifecycleScope
-import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
 import com.sobodigital.zulbelajarandroid.data.model.AuthParameter
 import com.sobodigital.zulbelajarandroid.databinding.ActivityLoginBinding
-import com.sobodigital.zulbelajarandroid.di.Injection
 import com.sobodigital.zulbelajarandroid.utils.navigateHome
 import com.sobodigital.zulbelajarandroid.viewmodel.AuthViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.AuthViewModelFactory
 import com.sobodigital.zulbelajarandroid.viewmodel.SettingViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.SettingViewModelFactory
-import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding

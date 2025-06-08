@@ -2,14 +2,12 @@ package com.sobodigital.zulbelajarandroid.ui.pages
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.sobodigital.zulbelajarandroid.databinding.FragmentSettingBinding
-import com.sobodigital.zulbelajarandroid.utils.navigateHome
 import com.sobodigital.zulbelajarandroid.utils.navigateToLogin
 import com.sobodigital.zulbelajarandroid.viewmodel.SettingViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.SettingViewModelFactory

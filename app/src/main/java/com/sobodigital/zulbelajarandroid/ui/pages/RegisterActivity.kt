@@ -7,15 +7,11 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import com.sobodigital.zulbelajarandroid.data.model.RegisterParameter
 import com.sobodigital.zulbelajarandroid.databinding.ActivityRegisterBinding
-import com.sobodigital.zulbelajarandroid.utils.navigateHome
 import com.sobodigital.zulbelajarandroid.utils.navigateToLogin
 import com.sobodigital.zulbelajarandroid.viewmodel.AuthViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.AuthViewModelFactory
-import com.sobodigital.zulbelajarandroid.viewmodel.SettingViewModel
-import com.sobodigital.zulbelajarandroid.viewmodel.SettingViewModelFactory
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding

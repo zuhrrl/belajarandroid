@@ -5,13 +5,12 @@ import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.switchMap
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,10 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.databinding.FragmentFeedStoriesBinding
 import com.sobodigital.zulbelajarandroid.ui.adapter.LoadingStateAdapter
-import com.sobodigital.zulbelajarandroid.ui.adapter.StoryAdapter
 import com.sobodigital.zulbelajarandroid.ui.adapter.StoryAdapterWithPaging
-import com.sobodigital.zulbelajarandroid.utils.navigateHome
-import com.sobodigital.zulbelajarandroid.utils.navigateToLogin
 import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModelFactory
 import kotlinx.coroutines.flow.collectLatest

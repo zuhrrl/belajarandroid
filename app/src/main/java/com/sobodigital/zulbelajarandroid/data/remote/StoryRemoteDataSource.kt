@@ -1,6 +1,5 @@
 package com.sobodigital.zulbelajarandroid.data.remote
 
-import com.sobodigital.zulbelajarandroid.data.model.EventDetailResponse
 import com.sobodigital.zulbelajarandroid.data.model.StoriesResponse
 import com.sobodigital.zulbelajarandroid.data.model.StoryResponse
 import com.sobodigital.zulbelajarandroid.data.model.UploadResponse

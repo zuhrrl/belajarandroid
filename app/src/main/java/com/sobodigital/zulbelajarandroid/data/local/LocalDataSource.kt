@@ -1,7 +1,6 @@
 package com.sobodigital.zulbelajarandroid.data.local
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import com.sobodigital.zulbelajarandroid.data.local.db.AppDatabase
 import com.sobodigital.zulbelajarandroid.data.local.db.EventDao
 import com.sobodigital.zulbelajarandroid.data.local.db.entity.EventEntity

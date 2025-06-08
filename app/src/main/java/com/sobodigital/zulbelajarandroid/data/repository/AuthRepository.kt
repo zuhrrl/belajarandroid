@@ -11,7 +11,6 @@ import com.sobodigital.zulbelajarandroid.data.model.LoginResponse
 import com.sobodigital.zulbelajarandroid.data.model.RegisterParameter
 import com.sobodigital.zulbelajarandroid.data.model.RegisterResponse
 import com.sobodigital.zulbelajarandroid.data.remote.AuthRemoteDataSource
-import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository.Companion
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

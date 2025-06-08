@@ -14,7 +14,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.sobodigital.zulbelajarandroid.R
-import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.databinding.FragmentStoryMapsBinding
 import com.sobodigital.zulbelajarandroid.viewmodel.StoryMapsViewModel
 import com.sobodigital.zulbelajarandroid.viewmodel.StoryMapsViewModelFactory

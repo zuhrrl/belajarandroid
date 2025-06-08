@@ -1,17 +1,12 @@
 package com.sobodigital.zulbelajarandroid.ui.pages
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
-import com.sobodigital.zulbelajarandroid.R
 import com.sobodigital.zulbelajarandroid.data.model.EventItem
 import com.sobodigital.zulbelajarandroid.databinding.StoryDetailBinding
 import com.sobodigital.zulbelajarandroid.viewmodel.StoryDetailViewModel

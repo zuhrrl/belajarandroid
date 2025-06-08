@@ -1,6 +1,5 @@
 package com.sobodigital.zulbelajarandroid.viewmodel
 
-import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,18 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sobodigital.zulbelajarandroid.data.Result
-import com.sobodigital.zulbelajarandroid.data.model.RegisterParameter
-import com.sobodigital.zulbelajarandroid.data.model.RegisterResponse
 import com.sobodigital.zulbelajarandroid.data.model.UploadResponse
 import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
 import com.sobodigital.zulbelajarandroid.data.repository.LocalRepository
 import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
-import com.sobodigital.zulbelajarandroid.utils.reduceFileImage
-import com.sobodigital.zulbelajarandroid.utils.uriToFile
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
 
 class UploadViewModel(private val localRepository: LocalRepository, private val storyRepository: StoryRepository): ViewModel() {
