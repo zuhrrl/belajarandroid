@@ -26,6 +26,9 @@ class FeedViewModel(private val repository: StoryRepository, private val localRe
     private val _pagerData = MutableLiveData<PagingData<Story>>()
     val pagerData: LiveData<PagingData<Story>> = _pagerData
 
+    private val _pagingData = MutableLiveData<LiveData<PagingData<Story>>>()
+    val pagingData: LiveData<LiveData<PagingData<Story>>> = _pagingData
+
     private val _errorData = MutableLiveData<Result.Error?>()
     val errorData = _errorData
 
@@ -73,12 +76,15 @@ class FeedViewModel(private val repository: StoryRepository, private val localRe
                 }
                 is Result.Success -> {
                     _isLoading.value = false
-                    response.data.liveData
-                        .asFlow()
+//                    response.data.liveData
+//                        .asFlow()
+//                        .cachedIn(viewModelScope)
+//                        .collectLatest { data ->
+//                            _pagerData.value = data
+//                        }
+                    val dataSourceResponse = response.data.liveData
                         .cachedIn(viewModelScope)
-                        .collectLatest { data ->
-                            _pagerData.value = data
-                        }
+                    _pagingData.value = dataSourceResponse
 
                 }
                 null -> {
@@ -88,6 +94,10 @@ class FeedViewModel(private val repository: StoryRepository, private val localRe
             }
         }
 
+    }
+
+    fun getStories() : LiveData<PagingData<Story>> {
+        return _pagingData.value?.cachedIn(viewModelScope) ?: MutableLiveData()
     }
 
     companion object{

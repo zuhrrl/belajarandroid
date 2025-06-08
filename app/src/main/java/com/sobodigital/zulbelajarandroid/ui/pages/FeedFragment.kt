@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.switchMap
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -82,7 +83,7 @@ class FeedFragment : Fragment() {
 
         feedViewModel.fetchStoryWithPaging()
 
-        feedViewModel.pagerData.observe(viewLifecycleOwner, { data ->
+        feedViewModel.getStories().observe(viewLifecycleOwner, { data ->
             showRecyclerList(data)
 
         })
