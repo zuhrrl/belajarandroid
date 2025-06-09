@@ -18,7 +18,6 @@
         android:icon="@drawable/add_24px"/>
     <item
         android:id="@+id/setting_page"
-        android:title="Setting"
-        android:icon="@drawable/settings_24px"
-        tools:ignore="HardcodedText" />
+        android:title="@string/setting"
+        android:icon="@drawable/settings_24px"/>
 </menu>

@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/setting_page"
         android:name="com.sobodigital.zulbelajarandroid.ui.pages.SettingFragment"
-        tools:layout="@layout/upload_image_fragment" >
+        tools:layout="@layout/fragment_setting" >
     </fragment>
 
 </navigation>

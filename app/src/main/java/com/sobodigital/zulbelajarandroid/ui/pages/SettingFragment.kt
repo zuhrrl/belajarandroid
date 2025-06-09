@@ -15,13 +15,6 @@ import com.sobodigital.zulbelajarandroid.viewmodel.SettingViewModelFactory
 
 class SettingFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,13 +27,6 @@ class SettingFragment : Fragment() {
         val settingFactory: SettingViewModelFactory = SettingViewModelFactory.getInstance(requireContext())
         val settingViewModel: SettingViewModel by viewModels { settingFactory }
 
-        settingViewModel.checkIsLoggedIn()
-        settingViewModel.isLoggedIn.observe(viewLifecycleOwner) {isLoggedIn ->
-            Log.d(TAG,"status $isLoggedIn")
-            if(!isLoggedIn) {
-                navigateToLogin(requireContext())
-            }
-        }
 
         viewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Any ->
             binding.switchTheme.isChecked = isDarkModeActive as Boolean
@@ -52,6 +38,8 @@ class SettingFragment : Fragment() {
 
         binding.btnLogout.setOnClickListener {
             viewModel.logoutApp()
+            navigateToLogin(requireContext())
+
         }
         return binding.root
     }
