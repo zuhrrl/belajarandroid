@@ -11,6 +11,9 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.sobodigital.zulbelajarandroid.R
 import com.sobodigital.zulbelajarandroid.data.model.AuthParameter
 import com.sobodigital.zulbelajarandroid.databinding.ActivityLoginBinding
 import com.sobodigital.zulbelajarandroid.utils.navigateHome
@@ -24,7 +27,6 @@ class LoginActivity : AppCompatActivity() {
 
     @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -102,6 +104,12 @@ class LoginActivity : AppCompatActivity() {
         AnimatorSet().apply {
             play(slideRight).before(slideLeft)
             start()
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_login)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
     }
 

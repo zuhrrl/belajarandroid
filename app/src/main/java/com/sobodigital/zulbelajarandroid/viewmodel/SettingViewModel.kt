@@ -1,5 +1,6 @@
 package com.sobodigital.zulbelajarandroid.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class SettingViewModel (private val pref: SettingPreferences) : ViewModel() {
-    private val _isLoggedIn = MutableLiveData<Boolean>()
+    private val _isLoggedIn = MutableLiveData(false)
     val isLoggedIn = _isLoggedIn
 
     fun getThemeSettings(): LiveData<Any> {
@@ -21,6 +22,9 @@ class SettingViewModel (private val pref: SettingPreferences) : ViewModel() {
         viewModelScope.launch {
             val token = pref.getPreferenceSetting(SettingPreferences.AUTH_TOKEN_KEY).first()
             val isLoggedIn = token is String && token.isNotEmpty()
+            Log.d(TAG, "Status check login $isLoggedIn")
+            Log.d(TAG, "Data check login $token")
+
             _isLoggedIn.value = isLoggedIn
         }
     }

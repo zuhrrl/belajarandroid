@@ -23,10 +23,13 @@
         android:theme="@style/Theme.AppCompat"
         android:usesCleartextTraffic="true"
         tools:targetApi="35">
+        <activity
+            android:name=".ui.pages.MainActivity2"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAZWDUZpKNd0hxluSyCQKTCGMAc76SR2xU"/>
+            android:value="AIzaSyAZWDUZpKNd0hxluSyCQKTCGMAc76SR2xU" />
 
         <activity
             android:name=".ui.pages.RegisterActivity"

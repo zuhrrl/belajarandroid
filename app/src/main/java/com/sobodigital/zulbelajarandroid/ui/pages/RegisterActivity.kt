@@ -7,6 +7,9 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.sobodigital.zulbelajarandroid.R
 import com.sobodigital.zulbelajarandroid.data.model.RegisterParameter
 import com.sobodigital.zulbelajarandroid.databinding.ActivityRegisterBinding
 import com.sobodigital.zulbelajarandroid.utils.navigateToLogin
@@ -17,7 +20,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -64,6 +66,11 @@ class RegisterActivity : AppCompatActivity() {
                 email = email,
                 password = password)
             viewModel.register(param)
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_register)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
 
     }

@@ -32,7 +32,7 @@ class StoryPagingDataSource(private val storyRemoteDataSource: StoryRemoteDataSo
                 val unauthorizedCodes = listOf(401, 403, 419, 415)
 
                 if(response.code() in unauthorizedCodes) {
-
+                    return LoadResult.Error(Exception("${error.message} code: ${response.code()}"))
                 }
             }
             Log.d(TAG, response.body().toString())

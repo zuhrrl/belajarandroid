@@ -17,6 +17,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.sobodigital.zulbelajarandroid.data.Result
 import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.databinding.FragmentFeedStoriesBinding
 import com.sobodigital.zulbelajarandroid.ui.adapter.LoadingStateAdapter
@@ -68,8 +69,29 @@ class FeedFragment : Fragment() {
             adapterWithPaging.loadStateFlow
                 .distinctUntilChangedBy { it.refresh }
                 .collectLatest { loadState ->
-                    val isLoading = loadState.refresh is LoadState.Loading
-                    viewModel.setLoading(isLoading)
+
+                    when (val refreshState = loadState.refresh) {
+                        is LoadState.Loading -> {
+                            viewModel.setLoading(true)
+                            viewModel.setErrorData(Result.Error(null))
+                        }
+
+                        is LoadState.NotLoading -> {
+                            viewModel.setLoading(false)
+                            viewModel.setErrorData(Result.Error(null))
+                        }
+
+                        is LoadState.Error -> {
+                            viewModel.setLoading(false)
+
+                            val errorMessage = refreshState.error.localizedMessage ?: "Unknown error"
+                            var errorCode : Int? = null
+                            if(errorMessage.matches(Regex("code"))) {
+                                errorCode = errorMessage.split(":")[1].trim().toInt()
+                            }
+                            viewModel.setErrorData(Result.Error(errorMessage, errorCode))
+                        }
+                    }
                 }
         }
 

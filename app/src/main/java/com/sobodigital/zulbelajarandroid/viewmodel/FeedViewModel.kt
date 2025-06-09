@@ -41,6 +41,10 @@ class FeedViewModel(private val repository: StoryRepository, private val localRe
         _isLoading.value = status
     }
 
+    fun setErrorData(result: Result.Error) {
+        _errorData.value = result
+    }
+
     fun fetchStoryWithPaging() {
         Log.d(TAG, "fetch story with paging")
         viewModelScope.launch {
