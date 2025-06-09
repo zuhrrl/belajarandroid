@@ -1,6 +1,7 @@
 package com.sobodigital.zulbelajarandroid.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.switchMap
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -68,7 +69,8 @@ class FeedViewModelTest {
         mainViewModel.fetchStoryWithPaging()
         advanceUntilIdle()
 
-        val actualStories: PagingData<Story> = mainViewModel.getStories().getOrAwaitValue()
+        val pagingData = mainViewModel.pagingData.switchMap { it }
+        val actualStories: PagingData<Story> = pagingData.getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryAdapterWithPaging.DIFF_CALLBACK,
@@ -114,7 +116,8 @@ class FeedViewModelTest {
         mainViewModel.fetchStoryWithPaging()
         advanceUntilIdle()
 
-        val actualStories: PagingData<Story> = mainViewModel.getStories().getOrAwaitValue()
+        val pagingData = mainViewModel.pagingData.switchMap { it }
+        val actualStories: PagingData<Story> = pagingData.getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryAdapterWithPaging.DIFF_CALLBACK,

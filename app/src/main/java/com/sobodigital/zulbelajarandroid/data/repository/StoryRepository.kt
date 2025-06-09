@@ -12,6 +12,8 @@ import com.sobodigital.zulbelajarandroid.data.model.UploadResponse
 import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
 import com.sobodigital.zulbelajarandroid.data.paging.StoryPagingDataSource
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
+import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModel
+import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModel.Companion
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
@@ -50,6 +52,8 @@ class StoryRepository(
     }
 
     suspend fun fetchStoryWithPaging(): Result<Pager<Int, Story>> {
+        Log.d(TAG, "fetch story with paging from repository")
+
         return withContext(Dispatchers.IO) {
             try {
                val pager = Pager(

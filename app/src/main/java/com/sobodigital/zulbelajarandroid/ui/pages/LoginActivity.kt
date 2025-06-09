@@ -24,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
     @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)

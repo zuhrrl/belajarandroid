@@ -10,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.switchMap
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,7 +34,8 @@ class FeedFragment : Fragment() {
     private lateinit var viewModel: FeedViewModel
     private var stories = listOf<Story>()
 
-    private fun showRecyclerList(pagingData: PagingData<Story>) {
+    private fun showRecyclerList(feedViewModel: FeedViewModel) {
+        Log.d(TAG, "Show recyler list")
         storyRecylerView.layoutManager = LinearLayoutManager(context)
         val adapter = StoryAdapterWithPaging()
         adapterWithPaging = adapter
@@ -53,7 +56,13 @@ class FeedFragment : Fragment() {
             }
         )
 
-        adapter.submitData(lifecycle, pagingData)
+        val pagingData = feedViewModel.pagingData.switchMap { it }
+        pagingData.observe(viewLifecycleOwner, { data ->
+            Log.d(TAG, "getStoreis()")
+            adapter.submitData(lifecycle, data)
+
+        })
+
 
         lifecycleScope.launch {
             adapterWithPaging.loadStateFlow
@@ -77,12 +86,9 @@ class FeedFragment : Fragment() {
         val feedViewModel: FeedViewModel by viewModels { factory }
         viewModel = feedViewModel
 
+        Log.d(TAG, "Feed fagment onCreateView")
+
         feedViewModel.fetchStoryWithPaging()
-
-        feedViewModel.getStories().observe(viewLifecycleOwner, { data ->
-            showRecyclerList(data)
-
-        })
 
         feedViewModel.isLoading.observe(viewLifecycleOwner) { isloading ->
             if(isloading) {
@@ -110,6 +116,9 @@ class FeedFragment : Fragment() {
             return@observe
         }
 
+        showRecyclerList(feedViewModel)
+
+
         val slideRight = ValueAnimator.ofFloat(0f, 10f).apply {
             duration = 1500
             addUpdateListener { updatedAnimation ->
@@ -132,6 +141,10 @@ class FeedFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
     companion object {
         private val TAG = FeedFragment::class.java.simpleName
     }

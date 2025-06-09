@@ -7,6 +7,8 @@ import com.google.gson.Gson
 import com.sobodigital.zulbelajarandroid.data.model.ErrorResponse
 import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
+import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
+import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository.Companion
 
 class StoryPagingDataSource(private val storyRemoteDataSource: StoryRemoteDataSource) : PagingSource<Int, Story>() {
     override fun getRefreshKey(state: PagingState<Int, Story>): Int? {
@@ -17,6 +19,7 @@ class StoryPagingDataSource(private val storyRemoteDataSource: StoryRemoteDataSo
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Story> {
+        Log.d(TAG, "load in story paging data source")
 
         return try {
             val page = params.key ?: INITIAL_PAGE_INDEX

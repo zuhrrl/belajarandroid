@@ -41,29 +41,8 @@ class FeedViewModel(private val repository: StoryRepository, private val localRe
         _isLoading.value = status
     }
 
-    fun fetchStory() {
-        viewModelScope.launch {
-            _errorData.value = Result.Error("")
-            _isLoading.value = true
-            when(val response = repository.fetchStories()) {
-                is Result.Error -> {
-                    _isLoading.value = false
-                    _errorData.value = response
-                }
-                is Result.Success -> {
-                    _isLoading.value = false
-                    _listEvent.value = response.data
-                }
-                null -> {
-                    _isLoading.value = false
-                    _errorData.value = Result.Error("Error: Unimplemented!")
-                }
-            }
-        }
-
-    }
-
     fun fetchStoryWithPaging() {
+        Log.d(TAG, "fetch story with paging")
         viewModelScope.launch {
             _errorData.value = Result.Error("")
             _isLoading.value = true
@@ -79,18 +58,15 @@ class FeedViewModel(private val repository: StoryRepository, private val localRe
                     _pagingData.value = dataSourceResponse
 
                 }
-                null -> {
-                    _isLoading.value = false
-                    _errorData.value = Result.Error("Error: Unimplemented!")
-                }
+
             }
         }
 
     }
 
-    fun getStories() : LiveData<PagingData<Story>> {
-        return _pagingData.value?.cachedIn(viewModelScope) ?: MutableLiveData()
-    }
+//    fun getStories() : LiveData<PagingData<Story>> {
+//        return _pagingData.value?.cachedIn(viewModelScope) ?: MutableLiveData()
+//    }
 
     companion object{
         private var TAG = FeedViewModel::class.java.simpleName
