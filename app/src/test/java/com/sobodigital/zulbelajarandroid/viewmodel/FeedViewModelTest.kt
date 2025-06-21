@@ -17,7 +17,8 @@ import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.data.repository.LocalRepository
 import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
 import com.sobodigital.zulbelajarandroid.getOrAwaitValue
-import com.sobodigital.zulbelajarandroid.ui.adapter.StoryAdapterWithPaging
+import com.sobodigital.zulbelajarandroid.presentation.viewmodel.FeedViewModel
+import com.sobodigital.zulbelajarandroid.presentation.adapter.StoryAdapterWithPaging
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.test.advanceUntilIdle

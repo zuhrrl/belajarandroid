@@ -5,7 +5,7 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.pages.LoginActivity">
+    tools:context=".presentation.pages.LoginActivity">
 
     <ProgressBar
         android:id="@+id/loading"
@@ -66,7 +66,7 @@
                android:hint="@string/email">
            </EditText>
 
-           <com.sobodigital.zulbelajarandroid.ui.component.AuthEditText
+           <com.sobodigital.zulbelajarandroid.presentation.component.AuthEditText
                android:id="@+id/password"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
@@ -78,8 +78,8 @@
                android:focusable="true"
                android:focusableInTouchMode="true"
                android:padding="10dp"
-               android:hint="@string/password">
-           </com.sobodigital.zulbelajarandroid.ui.component.AuthEditText>
+               android:hint="@string/password"/>
+
 
            <LinearLayout
                android:layout_width="wrap_content"

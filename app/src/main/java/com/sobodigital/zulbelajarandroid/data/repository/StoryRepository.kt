@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
-import androidx.paging.liveData
 import com.google.gson.Gson
 import com.sobodigital.zulbelajarandroid.data.Result
 import com.sobodigital.zulbelajarandroid.data.model.ErrorResponse
@@ -14,10 +12,7 @@ import com.sobodigital.zulbelajarandroid.data.model.UploadResponse
 import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
 import com.sobodigital.zulbelajarandroid.data.paging.StoryPagingDataSource
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
-import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModel
-import com.sobodigital.zulbelajarandroid.viewmodel.FeedViewModel.Companion
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody

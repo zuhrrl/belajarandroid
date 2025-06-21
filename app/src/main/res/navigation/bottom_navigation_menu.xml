@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/feed"
-        android:name="com.sobodigital.zulbelajarandroid.ui.pages.FeedFragment"
+        android:name="com.sobodigital.zulbelajarandroid.presentation.pages.FeedFragment"
         tools:layout="@layout/fragment_feed_stories" >
     </fragment>
 
     <fragment
         android:id="@+id/story_maps"
-        android:name="com.sobodigital.zulbelajarandroid.ui.pages.StoryMapsFragment"
+        android:name="com.sobodigital.zulbelajarandroid.presentation.pages.StoryMapsFragment"
         tools:layout="@layout/upload_image_fragment" >
     </fragment>
 
     <fragment
         android:id="@+id/add_story"
-        android:name="com.sobodigital.zulbelajarandroid.ui.pages.UploadImageFragment"
+        android:name="com.sobodigital.zulbelajarandroid.presentation.pages.UploadImageFragment"
         tools:layout="@layout/upload_image_fragment" >
     </fragment>
 
     <fragment
         android:id="@+id/setting_page"
-        android:name="com.sobodigital.zulbelajarandroid.ui.pages.SettingFragment"
+        android:name="com.sobodigital.zulbelajarandroid.presentation.pages.SettingFragment"
         tools:layout="@layout/fragment_setting" >
     </fragment>
 

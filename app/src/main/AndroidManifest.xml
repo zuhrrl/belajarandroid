@@ -24,7 +24,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="35">
         <activity
-            android:name=".ui.pages.MainActivity2"
+            android:name=".presentation.pages.MainActivity2"
             android:exported="false" />
 
         <meta-data
@@ -32,10 +32,10 @@
             android:value="AIzaSyAZWDUZpKNd0hxluSyCQKTCGMAc76SR2xU" />
 
         <activity
-            android:name=".ui.pages.RegisterActivity"
+            android:name=".presentation.pages.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.pages.LoginActivity"
+            android:name=".presentation.pages.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat">
             <intent-filter>
@@ -45,11 +45,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.pages.StoryDetailActivity"
+            android:name=".presentation.pages.StoryDetailActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name=".ui.pages.MainActivity"
+            android:name=".presentation.pages.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat" />
     </application>

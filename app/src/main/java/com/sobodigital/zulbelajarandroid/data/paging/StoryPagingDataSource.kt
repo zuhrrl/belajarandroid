@@ -7,8 +7,6 @@ import com.google.gson.Gson
 import com.sobodigital.zulbelajarandroid.data.model.ErrorResponse
 import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
-import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
-import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository.Companion
 
 class StoryPagingDataSource(private val storyRemoteDataSource: StoryRemoteDataSource) : PagingSource<Int, Story>() {
     override fun getRefreshKey(state: PagingState<Int, Story>): Int? {

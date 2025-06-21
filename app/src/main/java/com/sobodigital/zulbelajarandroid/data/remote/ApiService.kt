@@ -1,7 +1,7 @@
 package com.sobodigital.zulbelajarandroid.data.remote
 
+import com.sobodigital.zulbelajarandroid.data.model.AuthResponse
 import com.sobodigital.zulbelajarandroid.data.model.EventDetailResponse
-import com.sobodigital.zulbelajarandroid.data.model.EventResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -12,7 +12,7 @@ interface ApiService {
     @GET("events")
     suspend fun fetchEvents(
         @Query("active") active: Int
-    ): Response<EventResponse>
+    ): Response<AuthResponse>
 
     @GET("events/{id}")
     suspend fun fetchEventById(

@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.sobodigital.zulbelajarandroid.data.local.db.entity.EventEntity
+import com.sobodigital.zulbelajarandroid.data.local.db.entity.FavoriteEntity
 
-@Database(entities = [EventEntity::class], version = 1)
+@Database(entities = [FavoriteEntity::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun eventDao(): EventDao
+    abstract fun storyDao(): StoryDao
 
     companion object {
         @Volatile

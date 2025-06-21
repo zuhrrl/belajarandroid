@@ -1,7 +1,8 @@
 package com.sobodigital.zulbelajarandroid.data.remote
 
 import com.sobodigital.zulbelajarandroid.data.model.AuthParameter
-import com.sobodigital.zulbelajarandroid.data.model.LoginResponse
+import com.sobodigital.zulbelajarandroid.data.model.AuthResponse
+import com.sobodigital.zulbelajarandroid.domain.model.AuthCredential
 import com.sobodigital.zulbelajarandroid.data.model.RegisterParameter
 import com.sobodigital.zulbelajarandroid.data.model.RegisterResponse
 import retrofit2.Response
@@ -14,7 +15,7 @@ interface AuthRemoteDataSource {
     @POST("v1/login")
     suspend fun authWithEmail(
         @Body authParameter: AuthParameter
-    ): Response<LoginResponse>
+    ): Response<AuthResponse>
 
     @POST("v1/register")
     suspend fun register(
