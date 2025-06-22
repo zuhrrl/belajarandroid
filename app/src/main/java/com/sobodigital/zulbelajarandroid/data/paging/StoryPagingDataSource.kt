@@ -5,8 +5,10 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.google.gson.Gson
 import com.sobodigital.zulbelajarandroid.data.model.ErrorResponse
-import com.sobodigital.zulbelajarandroid.data.model.Story
+import com.sobodigital.zulbelajarandroid.data.model.StoryItemResponse
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
+import com.sobodigital.zulbelajarandroid.domain.model.Story
+import com.sobodigital.zulbelajarandroid.utils.DataMapper
 
 class StoryPagingDataSource(private val storyRemoteDataSource: StoryRemoteDataSource) : PagingSource<Int, Story>() {
     override fun getRefreshKey(state: PagingState<Int, Story>): Int? {
@@ -35,7 +37,16 @@ class StoryPagingDataSource(private val storyRemoteDataSource: StoryRemoteDataSo
             }
             Log.d(TAG, response.body().toString())
             return response.body()?.let { data ->
-                val list = data.listStory ?: listOf()
+                val domain = data.listStory?.map { item ->
+                    DataMapper.mapEntityToDomain(item, {
+                        Story(
+                            id = it.id,
+                            name = it.name,
+                            photoUrl = it.photoUrl
+                        )
+                    })
+                }
+                val list = domain ?: listOf()
                 LoadResult.Page(
                     data = list,
                     prevKey = if (page == 1) null else page - 1,
@@ -48,18 +59,6 @@ class StoryPagingDataSource(private val storyRemoteDataSource: StoryRemoteDataSo
             LoadResult.Error(error)
         }
 
-//        return try {
-//            val page = params.key ?: INITIAL_PAGE_INDEX
-//            val responseData = storyRemoteDataSource.fetchStories(page, params.loadSize)
-//
-//            LoadResult.Page(
-//                data = responseData,
-//                prevKey = if (page == 1) null else page - 1,
-//                nextKey = if (responseData.isNullOrEmpty()) null else page + 1
-//            )
-//        } catch (exception: Exception) {
-//            return LoadResult.Error(exception)
-//        }
     }
 
     private companion object {
@@ -67,5 +66,7 @@ class StoryPagingDataSource(private val storyRemoteDataSource: StoryRemoteDataSo
         private  val TAG = StoryPagingDataSource::class.simpleName
 
     }
+
+
 
 }

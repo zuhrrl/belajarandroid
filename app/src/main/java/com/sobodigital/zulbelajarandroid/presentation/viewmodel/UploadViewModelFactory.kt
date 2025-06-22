@@ -3,16 +3,20 @@ package com.sobodigital.zulbelajarandroid.presentation.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.sobodigital.zulbelajarandroid.data.repository.LocalRepository
-import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
+import com.sobodigital.zulbelajarandroid.data.repository.LocalRepositoryImpl
+import com.sobodigital.zulbelajarandroid.data.repository.StoryRepositoryImpl
 import com.sobodigital.zulbelajarandroid.di.Injection
+import com.sobodigital.zulbelajarandroid.domain.usecase.MediaUseCase
+import com.sobodigital.zulbelajarandroid.domain.usecase.StoryUseCase
 
-class UploadViewModelFactory private constructor(private val localRepository: LocalRepository, private val storyRepository: StoryRepository) :
+class UploadViewModelFactory private constructor(
+    private val storyUseCase: StoryUseCase,
+    private val mediaUseCase: MediaUseCase) :
     ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(UploadViewModel::class.java)) {
-            return UploadViewModel(localRepository, storyRepository) as T
+            return UploadViewModel(storyUseCase, mediaUseCase) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
@@ -23,8 +27,9 @@ class UploadViewModelFactory private constructor(private val localRepository: Lo
         fun getInstance(context: Context): UploadViewModelFactory =
             instance ?: synchronized(this) {
                 instance ?: UploadViewModelFactory(
-                    Injection.provideLocalRepository(context),
-                    Injection.provideStoryRepository(context))
+                    Injection.provideStoryUsecase(context),
+                    Injection.provideMediaUseCase(context)
+                )
             }.also { instance = it }
     }
 }

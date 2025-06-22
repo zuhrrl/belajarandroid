@@ -7,39 +7,37 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
+import com.sobodigital.zulbelajarandroid.domain.usecase.AuthUseCase
+import com.sobodigital.zulbelajarandroid.domain.usecase.SettingUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class SettingViewModel (private val pref: SettingPreferences) : ViewModel() {
+class SettingViewModel (private val settingUseCase: SettingUseCase,
+    private val authUseCase: AuthUseCase) : ViewModel() {
     private val _isLoggedIn = MutableLiveData(false)
     val isLoggedIn = _isLoggedIn
 
     fun getThemeSettings(): LiveData<Any> {
-        return pref.getPreferenceSetting(SettingPreferences.THEME_KEY).asLiveData()
+        return settingUseCase.getThemeSettings()
     }
 
     fun checkIsLoggedIn()  {
         viewModelScope.launch {
-            val token = pref.getPreferenceSetting(SettingPreferences.AUTH_TOKEN_KEY).first()
-            val isLoggedIn = token is String && token.isNotEmpty()
-            Log.d(TAG, "Status check login $isLoggedIn")
-            Log.d(TAG, "Data check login $token")
-
+            val isLoggedIn = authUseCase.checkIsLoggedIn()
             _isLoggedIn.value = isLoggedIn
         }
     }
 
     fun logoutApp() {
         viewModelScope.launch {
-            pref.clearAllPreference()
+            settingUseCase.clearAllPreference()
             checkIsLoggedIn()
         }
     }
 
-
     fun saveThemeSetting(isDarkModeActive: Boolean) {
         viewModelScope.launch {
-            pref.saveSetting(SettingPreferences.THEME_KEY, isDarkModeActive)
+            settingUseCase.saveSetting(SettingPreferences.THEME_KEY, isDarkModeActive)
         }
     }
 

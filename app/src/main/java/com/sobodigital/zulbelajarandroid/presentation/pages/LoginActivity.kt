@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
             return@observe
         }
 
-        viewModel.authResponse.observe(this) {data ->
+        viewModel.authSession.observe(this) {data ->
             if(data.error!!) {
                 return@observe
             }

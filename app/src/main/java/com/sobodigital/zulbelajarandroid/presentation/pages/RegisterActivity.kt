@@ -50,7 +50,7 @@ class RegisterActivity : AppCompatActivity() {
             return@observe
         }
 
-        viewModel.registerResponse.observe(this) {data ->
+        viewModel.registerSession.observe(this) {data ->
             if(data.error!!) {
                 return@observe
             }

@@ -9,12 +9,16 @@ import androidx.lifecycle.viewModelScope
 import com.sobodigital.zulbelajarandroid.data.Result
 import com.sobodigital.zulbelajarandroid.data.model.UploadResponse
 import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
-import com.sobodigital.zulbelajarandroid.data.repository.LocalRepository
-import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
+import com.sobodigital.zulbelajarandroid.data.repository.LocalRepositoryImpl
+import com.sobodigital.zulbelajarandroid.data.repository.StoryRepositoryImpl
+import com.sobodigital.zulbelajarandroid.domain.usecase.MediaUseCase
+import com.sobodigital.zulbelajarandroid.domain.usecase.StoryUseCase
 import kotlinx.coroutines.launch
 import java.io.File
 
-class UploadViewModel(private val localRepository: LocalRepository, private val storyRepository: StoryRepository): ViewModel() {
+class UploadViewModel(
+    private val storyUseCase: StoryUseCase,
+    private val mediaUseCase: MediaUseCase): ViewModel() {
 
     private val _fileFromGallery = MutableLiveData<File?>()
     val fileFromGallery = _fileFromGallery
@@ -31,15 +35,10 @@ class UploadViewModel(private val localRepository: LocalRepository, private val 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
-    fun setLoading(status: Boolean) {
-        Log.d(TAG, "Change status $status")
-        _isLoading.value = status
-    }
-
     fun onGalleryImagePicked(uri: Uri?) {
         _isLoading.value = true
         viewModelScope.launch {
-            when(val result = localRepository.reduceImageSize(uri)) {
+            when(val result = mediaUseCase.reduceImageSize(uri)) {
                 is Result.Error -> {
                     _isLoading.value = false
                     _errorMessage.value = "Error: ${result.error}"
@@ -55,7 +54,7 @@ class UploadViewModel(private val localRepository: LocalRepository, private val 
     fun onCameraImagePicked(uri: Uri?) {
         _isLoading.value = true
         viewModelScope.launch {
-            when(val result = localRepository.reduceImageSize(uri)) {
+            when(val result = mediaUseCase.reduceImageSize(uri)) {
                 is Result.Error -> {
                     _isLoading.value = false
                     _errorMessage.value = "Error: ${result.error}"
@@ -72,7 +71,7 @@ class UploadViewModel(private val localRepository: LocalRepository, private val 
         viewModelScope.launch {
             _errorMessage.value = ""
             _isLoading.value = true
-            when(val response = storyRepository.uploadStory(param)) {
+            when(val response = storyUseCase.uploadStory(param)) {
                 is Result.Error -> {
                     _isLoading.value = false
                     _errorMessage.value = "Error: ${response.error}"

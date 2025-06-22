@@ -11,5 +11,5 @@ data class StoryResponse(
 	val message: String? = null,
 
 	@field:SerializedName("story")
-	val story: Story? = null
+	val story: StoryItemResponse? = null
 )

@@ -6,8 +6,8 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.databinding.ItemStoryBinding
+import com.sobodigital.zulbelajarandroid.domain.model.Story
 
 class StoryAdapterWithPaging() :
     PagingDataAdapter<Story, StoryAdapterWithPaging.StoriesViewHolder>(DIFF_CALLBACK) {

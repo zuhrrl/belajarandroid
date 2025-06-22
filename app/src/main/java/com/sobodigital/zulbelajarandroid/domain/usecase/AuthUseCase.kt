@@ -7,9 +7,11 @@ import com.sobodigital.zulbelajarandroid.domain.model.RegisterData
 import com.sobodigital.zulbelajarandroid.domain.model.RegisterSession
 
 
-interface AuthUsecase {
+interface AuthUseCase {
     suspend fun authWithEmail(authCredential: AuthCredential): Result<AuthSession>?
 
     suspend fun register(registerData: RegisterData): Result<RegisterSession>?
+
+    suspend fun checkIsLoggedIn() : Boolean
 
 }

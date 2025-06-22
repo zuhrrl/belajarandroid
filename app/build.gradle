@@ -81,6 +81,7 @@ dependencies {
     implementation libs.play.services.maps
     testImplementation libs.junit.junit
     testImplementation libs.junit.junit
+    testImplementation libs.junit.junit2
     ksp(libs.room.compiler)
 
     androidTestImplementation(libs.androidx.core.testing)

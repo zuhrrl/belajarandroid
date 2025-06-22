@@ -1,4 +1,4 @@
-package com.sobodigital.zulbelajarandroid.viewmodel
+package com.sobodigital.zulbelajarandroid.presentation.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.switchMap
@@ -13,11 +13,10 @@ import com.sobodigital.zulbelajarandroid.DataDummy
 import com.sobodigital.zulbelajarandroid.MainDispatcherRule
 import com.sobodigital.zulbelajarandroid.TLog
 import com.sobodigital.zulbelajarandroid.data.Result
-import com.sobodigital.zulbelajarandroid.data.model.Story
-import com.sobodigital.zulbelajarandroid.data.repository.LocalRepository
-import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
+import com.sobodigital.zulbelajarandroid.domain.model.Story
+import com.sobodigital.zulbelajarandroid.domain.usecase.SettingUseCase
+import com.sobodigital.zulbelajarandroid.domain.usecase.StoryUseCase
 import com.sobodigital.zulbelajarandroid.getOrAwaitValue
-import com.sobodigital.zulbelajarandroid.presentation.viewmodel.FeedViewModel
 import com.sobodigital.zulbelajarandroid.presentation.adapter.StoryAdapterWithPaging
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.TimeoutCancellationException
@@ -26,6 +25,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withTimeout
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,6 +36,8 @@ import org.mockito.junit.MockitoJUnitRunner
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class FeedViewModelTest {
+    private lateinit var viewModel: FeedViewModel
+
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
@@ -43,10 +45,15 @@ class FeedViewModelTest {
     val mainDispatcherRules = MainDispatcherRule()
 
     @Mock
-    private lateinit var storyRepository: StoryRepository
+    private lateinit var storyUseCase: StoryUseCase
 
     @Mock
-    private lateinit var localRepository: LocalRepository
+    private lateinit var settingUseCase: SettingUseCase
+
+    @Before
+    fun setup() {
+        viewModel = FeedViewModel(storyUseCase, settingUseCase)
+    }
 
     @Test
     fun `when Get Stories Should Not Null and Return Data`() = runTest {
@@ -63,14 +70,13 @@ class FeedViewModelTest {
             }
         )
 
-        Mockito.`when`(storyRepository.fetchStoryWithPaging()).thenReturn(Result.Success(pager))
-        val mainViewModel = FeedViewModel(storyRepository, localRepository)
+        Mockito.`when`(storyUseCase.fetchStoryWithPaging()).thenReturn(Result.Success(pager))
 
         // act
-        mainViewModel.fetchStoryWithPaging()
+        viewModel.fetchStoryWithPaging()
         advanceUntilIdle()
 
-        val pagingData = mainViewModel.pagingData.switchMap { it }
+        val pagingData = viewModel.pagingData.switchMap { it }
         val actualStories: PagingData<Story> = pagingData.getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
@@ -97,7 +103,7 @@ class FeedViewModelTest {
     }
 
     @Test
-    fun `when Get Empty Sries Should Return No Data`() = runTest {
+    fun `when Get Empty stories Should Return No Data`() = runTest {
 
         //arrange
         val testDispatcher = mainDispatcherRules.testDispatcher
@@ -110,14 +116,13 @@ class FeedViewModelTest {
             }
         )
 
-        Mockito.`when`(storyRepository.fetchStoryWithPaging()).thenReturn(Result.Success(pager))
-        val mainViewModel = FeedViewModel(storyRepository, localRepository)
+        Mockito.`when`(storyUseCase.fetchStoryWithPaging()).thenReturn(Result.Success(pager))
 
         // act
-        mainViewModel.fetchStoryWithPaging()
+        viewModel.fetchStoryWithPaging()
         advanceUntilIdle()
 
-        val pagingData = mainViewModel.pagingData.switchMap { it }
+        val pagingData = viewModel.pagingData.switchMap { it }
         val actualStories: PagingData<Story> = pagingData.getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
@@ -138,6 +143,52 @@ class FeedViewModelTest {
 
         // assert
         assertEquals(0, differ.snapshot().size)
+
+        // verify
+        Mockito.verify(storyUseCase).fetchStoryWithPaging()
+    }
+
+    @Test
+    fun `when clear all preference should called`() = runTest {
+
+        //arrange
+
+        // act
+        viewModel.clearAllSetting()
+        advanceUntilIdle()
+
+        // verify
+        Mockito.verify(settingUseCase).clearAllPreference()
+    }
+
+    @Test
+    fun `Set loading should return correct status`() = runTest {
+
+        //arrange
+        val newStatus = false;
+
+        // act
+        viewModel.setLoading(newStatus)
+        val status = viewModel.isLoading.getOrAwaitValue()
+
+        // assert
+        assertEquals(false, status)
+
+    }
+
+    @Test
+    fun `Set Error data should return correct Error Data`() = runTest {
+
+        //arrange
+        val newErrorData = Result.Error("Error");
+
+        // act
+        viewModel.setErrorData(newErrorData)
+        val errorData = viewModel.errorData.getOrAwaitValue()
+
+        // assert
+        assertEquals(newErrorData, errorData)
+
     }
 }
 

@@ -18,8 +18,8 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sobodigital.zulbelajarandroid.data.Result
-import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.databinding.FragmentFeedStoriesBinding
+import com.sobodigital.zulbelajarandroid.domain.model.Story
 import com.sobodigital.zulbelajarandroid.presentation.adapter.LoadingStateAdapter
 import com.sobodigital.zulbelajarandroid.presentation.adapter.StoryAdapterWithPaging
 import com.sobodigital.zulbelajarandroid.presentation.viewmodel.FeedViewModel
@@ -28,7 +28,6 @@ import com.sobodigital.zulbelajarandroid.utils.navigateToLogin
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
-
 
 class FeedFragment : Fragment() {
     private lateinit var storyRecylerView: RecyclerView

@@ -3,18 +3,18 @@ package com.sobodigital.zulbelajarandroid.presentation.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.sobodigital.zulbelajarandroid.data.repository.LocalRepository
-import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
 import com.sobodigital.zulbelajarandroid.di.Injection
+import com.sobodigital.zulbelajarandroid.domain.usecase.SettingUseCase
+import com.sobodigital.zulbelajarandroid.domain.usecase.StoryUseCase
 
 class FeedViewModelFactory private constructor(
-    private val repository: StoryRepository,
-    private val localRepository: LocalRepository) :
+    private val storyUseCase: StoryUseCase,
+    private val settingUseCase: SettingUseCase) :
     ViewModelProvider.NewInstanceFactory() {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(FeedViewModel::class.java)) {
-                return FeedViewModel(repository, localRepository) as T
+                return FeedViewModel(storyUseCase, settingUseCase) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
@@ -24,8 +24,9 @@ class FeedViewModelFactory private constructor(
             private var instance: FeedViewModelFactory? = null
             fun getInstance(context: Context): FeedViewModelFactory =
                 instance ?: synchronized(this) {
-                    instance ?: FeedViewModelFactory(Injection.provideStoryRepository(context),
-                        Injection.provideLocalRepository(context))
+                    instance ?: FeedViewModelFactory(
+                        Injection.provideStoryUsecase(context),
+                        Injection.provideSettingUseCase(context))
                 }.also { instance = it }
         }
 }

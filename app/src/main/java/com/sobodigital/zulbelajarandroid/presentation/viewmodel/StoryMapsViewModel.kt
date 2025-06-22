@@ -9,13 +9,13 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.sobodigital.zulbelajarandroid.data.Result
-import com.sobodigital.zulbelajarandroid.data.model.Story
-import com.sobodigital.zulbelajarandroid.data.repository.MapsRepository
-import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
+import com.sobodigital.zulbelajarandroid.domain.model.Story
+import com.sobodigital.zulbelajarandroid.domain.usecase.MapsUseCase
+import com.sobodigital.zulbelajarandroid.domain.usecase.StoryUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class StoryMapsViewModel(private val mapsRepository: MapsRepository, private val repository: StoryRepository) : ViewModel() {
+class StoryMapsViewModel(private val mapsUseCase: MapsUseCase, private val storyUseCase: StoryUseCase) : ViewModel() {
     private val _listStory = MutableLiveData<List<Story>>()
     val listStory = _listStory
 
@@ -35,23 +35,18 @@ class StoryMapsViewModel(private val mapsRepository: MapsRepository, private val
         _isMapReady.value = false
         callback = OnMapReadyCallback { maps ->
             googleMap = maps
-            mapsRepository.setGoogleMap(maps)
+            mapsUseCase.setGoogleMap(maps)
             googleMap?.uiSettings?.isZoomControlsEnabled = true
 
             _isMapReady.value = true
          }
     }
 
-    fun setLoading(status: Boolean) {
-        Log.d(TAG, "Change status $status")
-        _isLoading.value = status
-    }
-
     fun fetchStoryWithLocation() {
         viewModelScope.launch {
             _errorData.value = Result.Error("")
             _isLoading.value = true
-            when(val response = repository.fetchStories(1)) {
+            when(val response = storyUseCase.fetchStories(1)) {
                 is Result.Error -> {
                     _isLoading.value = false
                     _errorData.value = response
@@ -93,7 +88,7 @@ class StoryMapsViewModel(private val mapsRepository: MapsRepository, private val
         }
 
         viewModelScope.launch {
-            mapsRepository.addMarker(story.name ?: "Unknown", LatLng(lat, lon))
+            mapsUseCase.addMarker(story.name ?: "Unknown", LatLng(lat, lon))
             delay(1000)
             _isLoading.value = false
         }

@@ -2,19 +2,21 @@ package com.sobodigital.zulbelajarandroid.presentation.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.sobodigital.zulbelajarandroid.data.repository.MapsRepository
-import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
+import com.sobodigital.zulbelajarandroid.data.repository.MapsRepositoryImpl
+import com.sobodigital.zulbelajarandroid.data.repository.StoryRepositoryImpl
 import com.sobodigital.zulbelajarandroid.di.Injection
+import com.sobodigital.zulbelajarandroid.domain.usecase.MapsUseCase
+import com.sobodigital.zulbelajarandroid.domain.usecase.StoryUseCase
 
 class StoryMapsViewModelFactory private constructor(
-    private val mapsRepository: MapsRepository,
-    private val storyRepository: StoryRepository,
+    private val mapsUseCase: MapsUseCase,
+    private val storyUseCase: StoryUseCase,
 ) :
     ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(StoryMapsViewModel::class.java)) {
-            return StoryMapsViewModel(mapsRepository, storyRepository) as T
+            return StoryMapsViewModel(mapsUseCase, storyUseCase) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
@@ -25,8 +27,8 @@ class StoryMapsViewModelFactory private constructor(
         fun getInstance(context: Context): StoryMapsViewModelFactory =
             instance ?: synchronized(this) {
                 instance ?: StoryMapsViewModelFactory(
-                    Injection.provideMapsRepository(context),
-                    Injection.provideStoryRepository(context))
+                    Injection.provideMapsUseCase(context),
+                    Injection.provideStoryUsecase(context))
             }.also { instance = it }
     }
 }

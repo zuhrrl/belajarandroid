@@ -2,7 +2,8 @@ package com.sobodigital.zulbelajarandroid.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Story(
+
+data class StoryItemResponse(
 
     @field:SerializedName("photoUrl")
     val photoUrl: String? = null,

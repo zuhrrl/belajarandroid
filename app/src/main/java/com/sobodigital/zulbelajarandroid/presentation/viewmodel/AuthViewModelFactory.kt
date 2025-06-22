@@ -3,11 +3,10 @@ package com.sobodigital.zulbelajarandroid.presentation.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.sobodigital.zulbelajarandroid.data.repository.AuthRepositoryImpl
 import com.sobodigital.zulbelajarandroid.di.Injection
-import com.sobodigital.zulbelajarandroid.domain.usecase.AuthUsecase
+import com.sobodigital.zulbelajarandroid.domain.usecase.AuthUseCase
 
-class AuthViewModelFactory private constructor(private val authUsecase: AuthUsecase) :
+class AuthViewModelFactory private constructor(private val authUsecase: AuthUseCase) :
     ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

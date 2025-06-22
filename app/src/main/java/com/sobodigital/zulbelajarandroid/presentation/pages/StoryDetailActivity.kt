@@ -15,7 +15,6 @@ import com.sobodigital.zulbelajarandroid.presentation.viewmodel.StoryDetailViewM
 
 class StoryDetailActivity : AppCompatActivity() {
     private lateinit var binding: StoryDetailBinding
-    var eventItem: EventItem? = null
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +30,7 @@ class StoryDetailActivity : AppCompatActivity() {
 
         storyId.let {
             id -> Log.d("TEST", id.toString())
-            viewModel.fetchEventById(id!!)
+            viewModel.fetchStoryById(id!!)
         }
 
         viewModel.isLoading.observe(this) {isLoading ->
@@ -55,10 +54,9 @@ class StoryDetailActivity : AppCompatActivity() {
         }
 
         viewModel.story.observe(this) {data ->
-            val item = data
-            Glide.with(baseContext).load(item.photoUrl).into(binding.detailImage)
-            binding.title.text = item.name
-            binding.description.text = item.description
+            Glide.with(baseContext).load(data.photoUrl).into(binding.detailImage)
+            binding.title.text = data.name
+            binding.description.text = data.description
         }
 
     }

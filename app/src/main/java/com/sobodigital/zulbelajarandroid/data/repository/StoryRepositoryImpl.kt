@@ -7,11 +7,13 @@ import androidx.paging.PagingConfig
 import com.google.gson.Gson
 import com.sobodigital.zulbelajarandroid.data.Result
 import com.sobodigital.zulbelajarandroid.data.model.ErrorResponse
-import com.sobodigital.zulbelajarandroid.data.model.Story
 import com.sobodigital.zulbelajarandroid.data.model.UploadResponse
 import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
 import com.sobodigital.zulbelajarandroid.data.paging.StoryPagingDataSource
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
+import com.sobodigital.zulbelajarandroid.domain.model.Story
+import com.sobodigital.zulbelajarandroid.domain.repository.StoryRepository
+import com.sobodigital.zulbelajarandroid.utils.DataMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
@@ -19,11 +21,10 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
-class StoryRepository(
-    private val storyRemoteDataSource: StoryRemoteDataSource) {
+class StoryRepositoryImpl(
+    private val storyRemoteDataSource: StoryRemoteDataSource) : StoryRepository {
 
-
-    suspend fun fetchStories(locationType: Int = 0): Result<List<Story>?>? {
+    override suspend fun fetchStories(locationType: Int): Result<List<Story>?>? {
         return withContext(Dispatchers.IO) {
             try {
                 val response = storyRemoteDataSource.fetchStories(locationType)
@@ -40,7 +41,19 @@ class StoryRepository(
                 }
                 Log.d(TAG, response.body().toString())
                 return@withContext response.body()?.let { data ->
-                    Result.Success(data.listStory) }
+
+                    val domain = data.listStory?.map { item ->
+                        DataMapper.mapEntityToDomain(item, {
+                            Story(
+                                id = it.id,
+                                name = it.name,
+                                photoUrl = it.photoUrl,
+                                lat = it.lat as Double,
+                                lon = it.lon as Double
+                            )
+                        })
+                    }
+                    Result.Success(domain) }
             } catch (e: Exception) {
                 val message = e.localizedMessage!!
                 Result.Error(message)
@@ -49,7 +62,7 @@ class StoryRepository(
 
     }
 
-    suspend fun fetchStoryWithPaging(): Result<Pager<Int, Story>> {
+    override suspend fun fetchStoryWithPaging(): Result<Pager<Int, Story>> {
         Log.d(TAG, "fetch story with paging from repository")
 
         return withContext(Dispatchers.IO) {
@@ -72,7 +85,7 @@ class StoryRepository(
         }
     }
 
-    suspend fun fetchStoryById(id: String): Result<Story?>? {
+    override suspend fun fetchStoryById(id: String): Result<Story?>? {
         return withContext(Dispatchers.IO) {
             try {
                 val response = storyRemoteDataSource.fetchStoryById(id)
@@ -89,7 +102,14 @@ class StoryRepository(
                 }
                 Log.d(TAG, response.body().toString())
                 return@withContext response.body()?.let { data ->
-                    Result.Success(data.story) }
+                    val domain = DataMapper.mapEntityToDomain(data.story, {
+                        Story(
+                            id = it?.id,
+                            name = it?.name,
+                            photoUrl = it?.photoUrl
+                        )
+                    })
+                    Result.Success(domain) }
             } catch (e: Exception) {
                 val message = e.localizedMessage!!
                 Result.Error(message)
@@ -98,7 +118,7 @@ class StoryRepository(
 
     }
 
-    suspend fun uploadStory(param: UploadStoryParameter): Result<UploadResponse?>? {
+    override suspend fun uploadStory(param: UploadStoryParameter): Result<UploadResponse?>? {
         val description = param.description?.toRequestBody("text/plain".toMediaType())
         val requestImageFile = param.file?.asRequestBody("image/jpeg".toMediaType())
         val photoMultipartBody = requestImageFile?.let {
@@ -134,16 +154,16 @@ class StoryRepository(
     }
 
     companion object {
-        private  val TAG = StoryRepository::class.simpleName
+        private  val TAG = StoryRepositoryImpl::class.simpleName
 
         @SuppressLint("StaticFieldLeak")
         @Volatile
-        private var instance: StoryRepository? = null
+        private var instance: StoryRepositoryImpl? = null
         fun getInstance(
             storyRemoteDatasource: StoryRemoteDataSource,
-        ): StoryRepository =
+        ): StoryRepositoryImpl =
             instance ?: synchronized(this) {
-                instance ?: StoryRepository(
+                instance ?: StoryRepositoryImpl(
                     storyRemoteDatasource)
             }.also { instance = it }
     }

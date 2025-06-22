@@ -7,17 +7,18 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import com.sobodigital.zulbelajarandroid.domain.repository.MapsRepository
 
 
-class MapsRepository(private val context: Context) {
+class MapsRepositoryImpl(private val context: Context) : MapsRepository {
     private val boundsBuilder = LatLngBounds.Builder()
     private lateinit var googleMap: GoogleMap
 
-    fun setGoogleMap(map: GoogleMap) {
+    override fun setGoogleMap(map: GoogleMap) {
         googleMap = map
     }
 
-    fun addMarker(name: String, latLng: LatLng) {
+    override fun addMarker(name: String, latLng: LatLng) {
         googleMap.addMarker(MarkerOptions().position(latLng).title(name))
         boundsBuilder.include(latLng)
 
@@ -40,18 +41,17 @@ class MapsRepository(private val context: Context) {
     }
 
     companion object {
-        private  val TAG = MapsRepository::class.simpleName
+        private  val TAG = MapsRepositoryImpl::class.simpleName
 
         @SuppressLint("StaticFieldLeak")
         @Volatile
-        private var instance: MapsRepository? = null
+        private var instance: MapsRepositoryImpl? = null
         fun getInstance(
             context: Context,
-            ): MapsRepository =
+            ): MapsRepositoryImpl =
             instance ?: synchronized(this) {
-                instance ?: MapsRepository(context)
+                instance ?: MapsRepositoryImpl(context)
             }.also { instance = it }
     }
-
 
 }

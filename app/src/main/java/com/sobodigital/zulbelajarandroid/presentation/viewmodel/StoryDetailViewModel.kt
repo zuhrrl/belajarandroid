@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sobodigital.zulbelajarandroid.data.Result
-import com.sobodigital.zulbelajarandroid.data.model.Story
-import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
+import com.sobodigital.zulbelajarandroid.domain.model.Story
+import com.sobodigital.zulbelajarandroid.domain.usecase.StoryUseCase
 import kotlinx.coroutines.launch
 
-class StoryDetailViewModel(private val repository: StoryRepository) : ViewModel() {
+class StoryDetailViewModel(private val storyUseCase: StoryUseCase) : ViewModel() {
     private val _story = MutableLiveData<Story>()
     val story = _story
 
@@ -19,11 +19,11 @@ class StoryDetailViewModel(private val repository: StoryRepository) : ViewModel(
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
-     fun fetchEventById(id: String) {
+     fun fetchStoryById(id: String) {
          viewModelScope.launch {
              _errorMessage.value = ""
              _isLoading.value = true
-             when(val response = repository.fetchStoryById(id)) {
+             when(val response = storyUseCase.fetchStoryById(id)) {
                  is Result.Error -> {
                      _isLoading.value = false
                      _errorMessage.value = "Error: ${response.error}"

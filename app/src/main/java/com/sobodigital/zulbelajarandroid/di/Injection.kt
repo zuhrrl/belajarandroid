@@ -2,19 +2,25 @@ package com.sobodigital.zulbelajarandroid.di
 
 import android.content.Context
 import android.util.Log
-import com.sobodigital.zulbelajarandroid.data.local.LocalDataSource
 import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
 import com.sobodigital.zulbelajarandroid.data.local.dataStore
 import com.sobodigital.zulbelajarandroid.data.remote.ApiConfig
-import com.sobodigital.zulbelajarandroid.data.remote.ApiService
 import com.sobodigital.zulbelajarandroid.data.remote.AuthRemoteDataSource
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
 import com.sobodigital.zulbelajarandroid.data.repository.AuthRepositoryImpl
-import com.sobodigital.zulbelajarandroid.data.repository.LocalRepository
-import com.sobodigital.zulbelajarandroid.data.repository.MapsRepository
-import com.sobodigital.zulbelajarandroid.data.repository.StoryRepository
+import com.sobodigital.zulbelajarandroid.data.repository.LocalRepositoryImpl
+import com.sobodigital.zulbelajarandroid.data.repository.MapsRepositoryImpl
+import com.sobodigital.zulbelajarandroid.data.repository.StoryRepositoryImpl
 import com.sobodigital.zulbelajarandroid.domain.usecase.AuthInteractor
-import com.sobodigital.zulbelajarandroid.domain.usecase.AuthUsecase
+import com.sobodigital.zulbelajarandroid.domain.usecase.AuthUseCase
+import com.sobodigital.zulbelajarandroid.domain.usecase.MapsInteractor
+import com.sobodigital.zulbelajarandroid.domain.usecase.MapsUseCase
+import com.sobodigital.zulbelajarandroid.domain.usecase.MediaInteractor
+import com.sobodigital.zulbelajarandroid.domain.usecase.MediaUseCase
+import com.sobodigital.zulbelajarandroid.domain.usecase.SettingInteractor
+import com.sobodigital.zulbelajarandroid.domain.usecase.SettingUseCase
+import com.sobodigital.zulbelajarandroid.domain.usecase.StoryInteractor
+import com.sobodigital.zulbelajarandroid.domain.usecase.StoryUseCase
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 
@@ -29,17 +35,17 @@ object Injection {
         return data.toString()
     }
 
-    fun provideLocalRepository(context: Context) : LocalRepository {
+    fun provideLocalRepository(context: Context) : LocalRepositoryImpl {
         val pref = SettingPreferences.getInstance(context.dataStore)
-        return LocalRepository.getInstance(context, pref)
+        return LocalRepositoryImpl.getInstance(context, pref)
     }
 
 
-    fun provideStoryRepository(context: Context): StoryRepository {
+    fun provideStoryRepository(context: Context): StoryRepositoryImpl {
         val token = provideToken(context)
         Log.d("Injection", "Token ${token}")
         val dataSource = ApiConfig.getDataSource(StoryRemoteDataSource::class.java, token)
-        return StoryRepository.getInstance(dataSource)
+        return StoryRepositoryImpl.getInstance(dataSource)
     }
 
     fun provideAuthRepository(context: Context): AuthRepositoryImpl {
@@ -52,13 +58,34 @@ object Injection {
         return SettingPreferences.getInstance(context.dataStore)
     }
 
-    fun provideMapsRepository(context: Context): MapsRepository {
-        return MapsRepository.getInstance(context)
+    fun provideMapsRepository(context: Context): MapsRepositoryImpl {
+        return MapsRepositoryImpl.getInstance(context)
     }
 
-    fun provideAuthUsecase(context: Context): AuthUsecase {
+    fun provideAuthUsecase(context: Context): AuthUseCase {
         val repository = provideAuthRepository(context)
-        return AuthInteractor(repository)
+        val localRepository = provideLocalRepository(context)
+        return AuthInteractor(repository, localRepository)
+    }
+
+    fun provideStoryUsecase(context: Context): StoryUseCase {
+        val repository = provideStoryRepository(context)
+        return StoryInteractor(repository)
+    }
+
+    fun provideMapsUseCase(context: Context): MapsUseCase {
+        val mapsRepository = provideMapsRepository(context)
+        return MapsInteractor(mapsRepository)
+    }
+
+    fun provideMediaUseCase(context: Context): MediaUseCase {
+        val localRepository = provideLocalRepository(context)
+        return MediaInteractor(localRepository)
+    }
+
+    fun provideSettingUseCase(context: Context): SettingUseCase {
+        val localRepository = provideLocalRepository(context)
+        return SettingInteractor(localRepository)
     }
 
 }

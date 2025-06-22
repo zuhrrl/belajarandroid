@@ -41,6 +41,7 @@ kotlinxCoroutinesTest = "1.7.3"
 mockitoCore = "5.8.0"
 mockitoInline = "4.4.0"
 junitJunit = "4.13.2"
+junitJunitVersion = "4.12"
 
 [libraries]
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
@@ -87,6 +88,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 junit-junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
+junit-junit2 = { group = "junit", name = "junit", version.ref = "junitJunitVersion" }
 
 
 [plugins]
