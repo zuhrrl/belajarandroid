@@ -2,9 +2,9 @@ package com.sobodigital.zulbelajarandroid.domain.usecase
 
 import androidx.paging.Pager
 import com.sobodigital.zulbelajarandroid.data.Result
-import com.sobodigital.zulbelajarandroid.data.model.UploadResponse
-import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
 import com.sobodigital.zulbelajarandroid.domain.model.Story
+import com.sobodigital.zulbelajarandroid.domain.model.UploadStorySession
+import com.sobodigital.zulbelajarandroid.domain.model.UploadStoryData
 import com.sobodigital.zulbelajarandroid.domain.repository.StoryRepository
 
 class StoryInteractor(private val storyRepository: StoryRepository) : StoryUseCase {
@@ -20,7 +20,7 @@ class StoryInteractor(private val storyRepository: StoryRepository) : StoryUseCa
         return storyRepository.fetchStoryById(id)
     }
 
-    override suspend fun uploadStory(param: UploadStoryParameter): Result<UploadResponse?>? {
+    override suspend fun uploadStory(param: UploadStoryData): Result<UploadStorySession?>? {
         return storyRepository.uploadStory(param)
     }
 

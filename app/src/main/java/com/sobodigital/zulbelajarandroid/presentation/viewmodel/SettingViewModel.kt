@@ -1,15 +1,12 @@
 package com.sobodigital.zulbelajarandroid.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
 import com.sobodigital.zulbelajarandroid.domain.usecase.AuthUseCase
 import com.sobodigital.zulbelajarandroid.domain.usecase.SettingUseCase
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class SettingViewModel (private val settingUseCase: SettingUseCase,

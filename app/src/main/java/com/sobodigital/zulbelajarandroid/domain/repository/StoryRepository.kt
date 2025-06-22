@@ -2,9 +2,9 @@ package com.sobodigital.zulbelajarandroid.domain.repository
 
 import androidx.paging.Pager
 import com.sobodigital.zulbelajarandroid.data.Result
-import com.sobodigital.zulbelajarandroid.data.model.UploadResponse
-import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
 import com.sobodigital.zulbelajarandroid.domain.model.Story
+import com.sobodigital.zulbelajarandroid.domain.model.UploadStorySession
+import com.sobodigital.zulbelajarandroid.domain.model.UploadStoryData
 
 interface StoryRepository {
 
@@ -14,6 +14,6 @@ interface StoryRepository {
 
     suspend fun fetchStoryById(id: String): Result<Story?>?
 
-    suspend fun uploadStory(param: UploadStoryParameter): Result<UploadResponse?>?
+    suspend fun uploadStory(param: UploadStoryData): Result<UploadStorySession?>?
 
 }

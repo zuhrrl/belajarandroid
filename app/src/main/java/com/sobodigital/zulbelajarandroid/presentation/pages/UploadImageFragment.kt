@@ -18,6 +18,7 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
 import com.sobodigital.zulbelajarandroid.databinding.UploadImageFragmentBinding
+import com.sobodigital.zulbelajarandroid.domain.model.UploadStoryData
 import com.sobodigital.zulbelajarandroid.utils.getImageUri
 import com.sobodigital.zulbelajarandroid.presentation.viewmodel.UploadViewModel
 import com.sobodigital.zulbelajarandroid.presentation.viewmodel.UploadViewModelFactory
@@ -144,7 +145,7 @@ class UploadImageFragment : Fragment() {
         binding.btnUploadStory.setOnClickListener {
             val description = binding.edDescription.text.toString().trim()
             selectedImage.let { file ->
-                val param = UploadStoryParameter(file = file, description = description)
+                val param = UploadStoryData(file = file, description = description)
                 viewModel.uploadStory(param)
             }
         }

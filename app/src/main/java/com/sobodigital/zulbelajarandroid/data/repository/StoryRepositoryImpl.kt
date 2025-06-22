@@ -7,11 +7,11 @@ import androidx.paging.PagingConfig
 import com.google.gson.Gson
 import com.sobodigital.zulbelajarandroid.data.Result
 import com.sobodigital.zulbelajarandroid.data.model.ErrorResponse
-import com.sobodigital.zulbelajarandroid.data.model.UploadResponse
-import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
 import com.sobodigital.zulbelajarandroid.data.paging.StoryPagingDataSource
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
 import com.sobodigital.zulbelajarandroid.domain.model.Story
+import com.sobodigital.zulbelajarandroid.domain.model.UploadStorySession
+import com.sobodigital.zulbelajarandroid.domain.model.UploadStoryData
 import com.sobodigital.zulbelajarandroid.domain.repository.StoryRepository
 import com.sobodigital.zulbelajarandroid.utils.DataMapper
 import kotlinx.coroutines.Dispatchers
@@ -118,7 +118,7 @@ class StoryRepositoryImpl(
 
     }
 
-    override suspend fun uploadStory(param: UploadStoryParameter): Result<UploadResponse?>? {
+    override suspend fun uploadStory(param: UploadStoryData): Result<UploadStorySession?>? {
         val description = param.description?.toRequestBody("text/plain".toMediaType())
         val requestImageFile = param.file?.asRequestBody("image/jpeg".toMediaType())
         val photoMultipartBody = requestImageFile?.let {
@@ -144,7 +144,14 @@ class StoryRepositoryImpl(
                 }
                 Log.d(TAG, response.body().toString())
                 return@withContext response.body()?.let { data ->
-                    Result.Success(data) }
+                    val domain = DataMapper.mapEntityToDomain(data, {
+                        UploadStorySession(
+                            error = it.error,
+                            message = it.message
+                        )
+                    })
+                    Result.Success(domain)
+                }
             } catch (e: Exception) {
                 val message = e.localizedMessage!!
                 Result.Error(message)

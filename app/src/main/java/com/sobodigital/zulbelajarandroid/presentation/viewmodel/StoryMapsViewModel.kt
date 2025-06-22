@@ -15,7 +15,9 @@ import com.sobodigital.zulbelajarandroid.domain.usecase.StoryUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class StoryMapsViewModel(private val mapsUseCase: MapsUseCase, private val storyUseCase: StoryUseCase) : ViewModel() {
+class StoryMapsViewModel(
+    private val mapsUseCase: MapsUseCase,
+    private val storyUseCase: StoryUseCase) : ViewModel() {
     private val _listStory = MutableLiveData<List<Story>>()
     val listStory = _listStory
 

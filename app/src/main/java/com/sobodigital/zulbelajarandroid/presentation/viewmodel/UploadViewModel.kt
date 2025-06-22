@@ -1,16 +1,13 @@
 package com.sobodigital.zulbelajarandroid.presentation.viewmodel
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sobodigital.zulbelajarandroid.data.Result
-import com.sobodigital.zulbelajarandroid.data.model.UploadResponse
-import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
-import com.sobodigital.zulbelajarandroid.data.repository.LocalRepositoryImpl
-import com.sobodigital.zulbelajarandroid.data.repository.StoryRepositoryImpl
+import com.sobodigital.zulbelajarandroid.domain.model.UploadStorySession
+import com.sobodigital.zulbelajarandroid.domain.model.UploadStoryData
 import com.sobodigital.zulbelajarandroid.domain.usecase.MediaUseCase
 import com.sobodigital.zulbelajarandroid.domain.usecase.StoryUseCase
 import kotlinx.coroutines.launch
@@ -26,7 +23,7 @@ class UploadViewModel(
     private val _fileFromCamera = MutableLiveData<File?>()
     val fileFromCamera = _fileFromCamera
 
-    private val _uploadStoryResponse = MutableLiveData<UploadResponse>()
+    private val _uploadStoryResponse = MutableLiveData<UploadStorySession>()
     val uploadStoryResponse = _uploadStoryResponse
 
     private val _isLoading = MutableLiveData<Boolean>()
@@ -67,7 +64,7 @@ class UploadViewModel(
         }
     }
 
-    fun uploadStory(param: UploadStoryParameter) {
+    fun uploadStory(param: UploadStoryData) {
         viewModelScope.launch {
             _errorMessage.value = ""
             _isLoading.value = true
