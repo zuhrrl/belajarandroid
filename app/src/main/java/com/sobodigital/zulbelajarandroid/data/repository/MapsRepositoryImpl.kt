@@ -7,6 +7,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import com.sobodigital.zulbelajarandroid.domain.model.LocationData
 import com.sobodigital.zulbelajarandroid.domain.repository.MapsRepository
 
 
@@ -18,7 +19,8 @@ class MapsRepositoryImpl(private val context: Context) : MapsRepository {
         googleMap = map
     }
 
-    override fun addMarker(name: String, latLng: LatLng) {
+    override fun addMarker(name: String, locationData: LocationData) {
+        val latLng = LatLng(locationData.lat, locationData.lon)
         googleMap.addMarker(MarkerOptions().position(latLng).title(name))
         boundsBuilder.include(latLng)
 

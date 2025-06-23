@@ -9,6 +9,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.sobodigital.zulbelajarandroid.data.Result
+import com.sobodigital.zulbelajarandroid.domain.model.LocationData
 import com.sobodigital.zulbelajarandroid.domain.model.Story
 import com.sobodigital.zulbelajarandroid.domain.usecase.MapsUseCase
 import com.sobodigital.zulbelajarandroid.domain.usecase.StoryUseCase
@@ -90,7 +91,9 @@ class StoryMapsViewModel(
         }
 
         viewModelScope.launch {
-            mapsUseCase.addMarker(story.name ?: "Unknown", LatLng(lat, lon))
+            val locationData = LocationData(lat, lon)
+            val storyName = story.name ?: "Unknown"
+            mapsUseCase.addMarker(storyName, locationData)
             delay(1000)
             _isLoading.value = false
         }

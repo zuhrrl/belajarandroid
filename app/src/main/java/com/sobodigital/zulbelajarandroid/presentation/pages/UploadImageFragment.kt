@@ -16,12 +16,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.sobodigital.zulbelajarandroid.data.model.UploadStoryParameter
 import com.sobodigital.zulbelajarandroid.databinding.UploadImageFragmentBinding
 import com.sobodigital.zulbelajarandroid.domain.model.UploadStoryData
-import com.sobodigital.zulbelajarandroid.utils.getImageUri
 import com.sobodigital.zulbelajarandroid.presentation.viewmodel.UploadViewModel
 import com.sobodigital.zulbelajarandroid.presentation.viewmodel.UploadViewModelFactory
+import com.sobodigital.zulbelajarandroid.utils.getImageUri
 import java.io.File
 
 class UploadImageFragment : Fragment() {
