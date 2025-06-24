@@ -169,7 +169,7 @@ class StoryRepositoryImpl(
         return withContext(Dispatchers.IO) {
             try {
                 val storyEntity = localDataSource.getDao().getStoryById(id)
-                Log.d(TAG, "Trying to get story $storyEntity")
+                Log.d(TAG, "Succces get data from DB $storyEntity")
                 val domain = DataMapper.mapEntityToDomain(storyEntity, {
                     Story(id = it.storyId,
                         name = it.name,
@@ -185,22 +185,27 @@ class StoryRepositoryImpl(
         }
     }
 
-    override fun bookmarkStory(data: Story) {
-        val entity = DataMapper.mapEntityToDomain(data, {
-            StoryEntity(
-                storyId = it.id,
-                name = it.name,
-                description = it.description,
-                photoUrl = it.photoUrl
-            )
-        })
-        localDataSource.insert(entity)
+    override suspend fun bookmarkStory(data: Story) {
+        Log.d(TAG, "Trying to bookmark story ${data.id}")
+        return withContext(Dispatchers.IO) {
+            val entity = DataMapper.mapEntityToDomain(data, {
+                StoryEntity(
+                    storyId = it.id,
+                    name = it.name,
+                    description = it.description,
+                    photoUrl = it.photoUrl
+                )
+            })
+            localDataSource.insert(entity)
+        }
+
     }
 
-    override fun removeBookmarkById(id: String) {
-        return localDataSource.getDao().deleteById(id)
+    override suspend fun removeBookmarkById(id: String) {
+        return withContext(Dispatchers.IO) {
+            localDataSource.getDao().deleteById(id)
+        }
     }
-
 
     companion object {
         private  val TAG = StoryRepositoryImpl::class.simpleName

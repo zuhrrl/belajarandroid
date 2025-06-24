@@ -50,7 +50,7 @@ class StoryDetailViewModel(private val storyUseCase: StoryUseCase) : ViewModel()
          }
     }
 
-    fun checkIsFavoriteEvent(id: String) {
+    fun checkIsFavoriteStory(id: String) {
         viewModelScope.launch {
             when(storyUseCase.getStoryFromDbById(id)) {
                 is Result.Error -> {
@@ -69,13 +69,13 @@ class StoryDetailViewModel(private val storyUseCase: StoryUseCase) : ViewModel()
             if(isFavorite.value!!) {
                 story.id?.let { storyUseCase.removeBookmarkById(it) }
                 delay(300)
-                story.id?.let { checkIsFavoriteEvent(it) }
+                story.id?.let { checkIsFavoriteStory(it) }
                 _isFavoriteLoading.value = false
                 return@launch
             }
             storyUseCase.bookmarkStory(story)
             delay(300)
-            story.id?.let { checkIsFavoriteEvent(it) }
+            story.id?.let { checkIsFavoriteStory(it) }
             _isFavoriteLoading.value = false
 
         }

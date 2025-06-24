@@ -29,11 +29,11 @@ class StoryInteractor(private val storyRepository: StoryRepository) : StoryUseCa
         return storyRepository.getStoryFromDbById(id)
     }
 
-    override fun bookmarkStory(data: Story) {
+    override suspend fun bookmarkStory(data: Story) {
         return storyRepository.bookmarkStory(data)
     }
 
-    override fun removeBookmarkById(id: String) {
+    override suspend fun removeBookmarkById(id: String) {
         return storyRepository.removeBookmarkById(id)
     }
 

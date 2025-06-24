@@ -18,8 +18,8 @@ interface StoryRepository {
 
     suspend fun getStoryFromDbById(id: String): Result<Story>
 
-    fun bookmarkStory(data: Story)
+    suspend fun bookmarkStory(data: Story)
 
-    fun removeBookmarkById(id: String)
+    suspend fun removeBookmarkById(id: String)
 
 }
