@@ -5,6 +5,7 @@ import com.sobodigital.zulbelajarandroid.data.Result
 import com.sobodigital.zulbelajarandroid.domain.model.Story
 import com.sobodigital.zulbelajarandroid.domain.model.UploadStorySession
 import com.sobodigital.zulbelajarandroid.domain.model.UploadStoryData
+import com.sobodigital.zulbelajarandroid.domain.repository.LocalRepository
 import com.sobodigital.zulbelajarandroid.domain.repository.StoryRepository
 
 class StoryInteractor(private val storyRepository: StoryRepository) : StoryUseCase {
@@ -22,6 +23,18 @@ class StoryInteractor(private val storyRepository: StoryRepository) : StoryUseCa
 
     override suspend fun uploadStory(param: UploadStoryData): Result<UploadStorySession?>? {
         return storyRepository.uploadStory(param)
+    }
+
+    override suspend fun getStoryFromDbById(id: String): Result<Story> {
+        return storyRepository.getStoryFromDbById(id)
+    }
+
+    override fun bookmarkStory(data: Story) {
+        return storyRepository.bookmarkStory(data)
+    }
+
+    override fun removeBookmarkById(id: String) {
+        return storyRepository.removeBookmarkById(id)
     }
 
 

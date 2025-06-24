@@ -2,8 +2,12 @@ package com.sobodigital.zulbelajarandroid.di
 
 import android.content.Context
 import android.util.Log
+import com.sobodigital.zulbelajarandroid.data.local.LocalDataSource
 import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
 import com.sobodigital.zulbelajarandroid.data.local.dataStore
+import com.sobodigital.zulbelajarandroid.data.local.db.AppDatabase
+import com.sobodigital.zulbelajarandroid.data.local.db.dao.StoryDao
+import com.sobodigital.zulbelajarandroid.data.local.db.entity.StoryEntity
 import com.sobodigital.zulbelajarandroid.data.remote.ApiConfig
 import com.sobodigital.zulbelajarandroid.data.remote.AuthRemoteDataSource
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
@@ -41,11 +45,13 @@ object Injection {
     }
 
 
-    fun provideStoryRepository(context: Context): StoryRepositoryImpl {
+    private fun provideStoryRepository(context: Context): StoryRepositoryImpl {
         val token = provideToken(context)
         Log.d("Injection", "Token ${token}")
         val dataSource = ApiConfig.getDataSource(StoryRemoteDataSource::class.java, token)
-        return StoryRepositoryImpl.getInstance(dataSource)
+        val storyDao = AppDatabase.getDatabase(context).storyDao()
+        val localDataSource = LocalDataSource(storyDao)
+        return StoryRepositoryImpl.getInstance(dataSource, localDataSource)
     }
 
     fun provideAuthRepository(context: Context): AuthRepositoryImpl {

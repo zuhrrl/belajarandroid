@@ -16,4 +16,10 @@ interface StoryRepository {
 
     suspend fun uploadStory(param: UploadStoryData): Result<UploadStorySession?>?
 
+    suspend fun getStoryFromDbById(id: String): Result<Story>
+
+    fun bookmarkStory(data: Story)
+
+    fun removeBookmarkById(id: String)
+
 }

@@ -17,4 +17,5 @@ data class Story(
     val lon: Double? = null,
 
     val lat: Double? = null
+
 ) : Parcelable

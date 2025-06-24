@@ -6,8 +6,12 @@ import android.net.Uri
 import android.util.Log
 import androidx.datastore.preferences.core.Preferences
 import com.sobodigital.zulbelajarandroid.data.Result
+import com.sobodigital.zulbelajarandroid.data.local.LocalDataSource
 import com.sobodigital.zulbelajarandroid.data.local.SettingPreferences
+import com.sobodigital.zulbelajarandroid.data.local.db.entity.StoryEntity
+import com.sobodigital.zulbelajarandroid.domain.model.Story
 import com.sobodigital.zulbelajarandroid.domain.repository.LocalRepository
+import com.sobodigital.zulbelajarandroid.utils.DataMapper
 import com.sobodigital.zulbelajarandroid.utils.reduceFileImage
 import com.sobodigital.zulbelajarandroid.utils.uriToFile
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +21,7 @@ import java.io.File
 
 class LocalRepositoryImpl(
     private val context: Context,
-    private val prefSetting: SettingPreferences
+    private val prefSetting: SettingPreferences,
 ) : LocalRepository{
 
     override suspend fun clearAllPreference() {
@@ -54,10 +58,11 @@ class LocalRepositoryImpl(
         private var instance: LocalRepositoryImpl? = null
         fun getInstance(
             context: Context,
-            prefSetting: SettingPreferences
+            prefSetting: SettingPreferences,
         ): LocalRepositoryImpl =
             instance ?: synchronized(this) {
-                instance ?: LocalRepositoryImpl(context, prefSetting)
+                instance ?: LocalRepositoryImpl(
+                    context, prefSetting)
             }.also { instance = it }
     }
 }

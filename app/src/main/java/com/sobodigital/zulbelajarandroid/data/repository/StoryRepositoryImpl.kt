@@ -6,12 +6,15 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.google.gson.Gson
 import com.sobodigital.zulbelajarandroid.data.Result
+import com.sobodigital.zulbelajarandroid.data.local.LocalDataSource
+import com.sobodigital.zulbelajarandroid.data.local.db.dao.StoryDao
+import com.sobodigital.zulbelajarandroid.data.local.db.entity.StoryEntity
 import com.sobodigital.zulbelajarandroid.data.model.ErrorResponse
 import com.sobodigital.zulbelajarandroid.data.paging.StoryPagingDataSource
 import com.sobodigital.zulbelajarandroid.data.remote.StoryRemoteDataSource
 import com.sobodigital.zulbelajarandroid.domain.model.Story
-import com.sobodigital.zulbelajarandroid.domain.model.UploadStorySession
 import com.sobodigital.zulbelajarandroid.domain.model.UploadStoryData
+import com.sobodigital.zulbelajarandroid.domain.model.UploadStorySession
 import com.sobodigital.zulbelajarandroid.domain.repository.StoryRepository
 import com.sobodigital.zulbelajarandroid.utils.DataMapper
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +25,9 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
 class StoryRepositoryImpl(
-    private val storyRemoteDataSource: StoryRemoteDataSource) : StoryRepository {
+    private val storyRemoteDataSource: StoryRemoteDataSource,
+    private val localDataSource: LocalDataSource<StoryEntity, StoryDao>
+) : StoryRepository {
 
     override suspend fun fetchStories(locationType: Int): Result<List<Story>?>? {
         return withContext(Dispatchers.IO) {
@@ -160,6 +165,43 @@ class StoryRepositoryImpl(
 
     }
 
+    override suspend fun getStoryFromDbById(id: String): Result<Story> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val storyEntity = localDataSource.getDao().getStoryById(id)
+                Log.d(TAG, "Trying to get story $storyEntity")
+                val domain = DataMapper.mapEntityToDomain(storyEntity, {
+                    Story(id = it.storyId,
+                        name = it.name,
+                        description = it.description,
+                        photoUrl = it.photoUrl
+                    )
+                })
+                return@withContext Result.Success(domain)
+            } catch (e: Exception) {
+                val message = e.localizedMessage!!
+                Result.Error(message)
+            }
+        }
+    }
+
+    override fun bookmarkStory(data: Story) {
+        val entity = DataMapper.mapEntityToDomain(data, {
+            StoryEntity(
+                storyId = it.id,
+                name = it.name,
+                description = it.description,
+                photoUrl = it.photoUrl
+            )
+        })
+        localDataSource.insert(entity)
+    }
+
+    override fun removeBookmarkById(id: String) {
+        return localDataSource.getDao().deleteById(id)
+    }
+
+
     companion object {
         private  val TAG = StoryRepositoryImpl::class.simpleName
 
@@ -168,10 +210,12 @@ class StoryRepositoryImpl(
         private var instance: StoryRepositoryImpl? = null
         fun getInstance(
             storyRemoteDatasource: StoryRemoteDataSource,
+            localDataSource: LocalDataSource<StoryEntity, StoryDao>
         ): StoryRepositoryImpl =
             instance ?: synchronized(this) {
                 instance ?: StoryRepositoryImpl(
-                    storyRemoteDatasource)
+                    storyRemoteDatasource,
+                    localDataSource)
             }.also { instance = it }
     }
 }
